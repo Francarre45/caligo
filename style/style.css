@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap");
 
+/* Mantener todos los estilos originales exactamente iguales */
 body {
     background-color: #87c3bd;
 }
@@ -34,6 +35,7 @@ nav ul li {
     margin: 0 30px;
 }
 
+/* Ocultar elementos de Bootstrap que interfieren */
 .navbar-brand {
     display: none !important;
 }
@@ -53,6 +55,7 @@ nav ul li {
     margin-left: auto;
 }
 
+/* Mostrar menú en desktop, ocultar en móviles */
 @media (min-width: 992px) {
     .navbar-collapse {
         display: flex !important;
@@ -63,18 +66,27 @@ nav ul li {
     .navbar-collapse:not(.show) {
         display: none !important;
     }
-
+    
     .navbar-collapse.show {
         display: block !important;
     }
 }
 
+/* Cards originales sin cambios */
 .card2 {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     gap: 20px;
     margin-bottom: 50px;
+    margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+    .card2 {
+        flex-direction: column;
+        align-items: center;
+    }
 }
 
 .mochilas-bolsos,
@@ -119,6 +131,7 @@ nav ul li {
     color: #333;
 }
 
+/* Footer original */
 footer {
     display: flex;
     width: 100%;
@@ -145,7 +158,9 @@ footer .WhatsApp {
     object-fit: contain;
 }
 
-main {
+/* Estilos para páginas de catálogo - manteniendo diseño original */
+/* Layout principal para páginas internas (equipajes, accesorios) */
+main.catalog-layout {
     display: flex;
     gap: 30px;
     padding: 20px;
@@ -153,7 +168,7 @@ main {
     align-items: flex-start;
 }
 
-main h2 {
+main.catalog-layout h2 {
     position: absolute;
     top: 120px;
     left: 50%;
@@ -164,6 +179,37 @@ main h2 {
     color: #333;
     width: 100%;
     z-index: 999;
+}
+
+/* Eliminar posicionamiento absoluto y reorganizar contenido */
+main h2 {
+    text-align: center;
+    margin: 30px 0 20px 0;
+    font-size: 28px;
+    color: #333;
+    width: 100%;
+}
+
+/* Sección principal del index - mejorar layout */
+main section:first-child {
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+main section:first-child h2 {
+    position: static;
+    transform: none;
+    z-index: auto;
+    left: auto;
+    top: auto;
+}
+
+main section:first-child p {
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+    color: #333;
 }
 
 .menu-lateral {
@@ -244,6 +290,7 @@ main h2 {
     background-color: white;
 }
 
+/* Página Quiénes Somos - mantener estilo original */
 .quienessomos {
     padding: 40px 20px;
     max-width: 1200px;
@@ -264,30 +311,31 @@ main h2 {
     text-align: justify;
 }
 
+/* Ajustes responsivos mínimos sin cambiar colores */
 @media (max-width: 991px) {
     .menu-lateral {
         position: static;
         width: 100%;
         margin-bottom: 20px;
     }
-
+    
     .productos-seccion {
         margin-left: 0;
         margin-top: 20px;
         width: 100%;
     }
-
-    main {
+    
+    main.catalog-layout {
         flex-direction: column;
         padding: 10px;
     }
-
-    main h2 {
+    
+    main.catalog-layout h2 {
         position: static;
         transform: none;
         margin-bottom: 20px;
     }
-
+    
     .card1 {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -299,22 +347,22 @@ main h2 {
         padding: 15px;
         text-align: center;
     }
-
+    
     header nav ul {
         flex-direction: column;
         gap: 10px;
         margin-top: 15px;
     }
-
+    
     nav ul li {
         margin: 5px 0;
     }
-
+    
     .card2 {
         flex-direction: column;
         align-items: center;
     }
-
+    
     .mochilas-bolsos,
     .vali-carryon,
     .accesorios-inicio {
@@ -322,16 +370,16 @@ main h2 {
         max-width: 350px;
         margin: 15px;
     }
-
+    
     .card1 {
         grid-template-columns: 1fr;
     }
-
+    
     .todos-equipajes {
         width: 100%;
         max-width: 300px;
     }
-
+    
     footer {
         flex-direction: column;
         text-align: center;
