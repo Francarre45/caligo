@@ -95,47 +95,89 @@ footer .WhatsApp {
     height: 20px;
     object-fit: contain;
 }
-.card1 {
-    display:flex;
-    justify-content: center; 
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-  .todos-equipajes{
-    border: black 1px solid;
-    margin: 30px;
-    width: 300px; 
-    height: 450px;
+main {
     display: flex;
-    flex-direction: column;
-    background-color: #87c3bd;
+    gap: 30px;
+    padding: 20px;
+    min-height: 100vh;
+    align-items: flex-start;
 }
+
+/* Título que va arriba de todo */
 main h2 {
-    margin: 0 0 20px 0;
-    writing-mode: horizontal-tb;
+    position: absolute;
+    top: 120px; /* Ajusta según tu header */
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    margin: 0;
+    font-size: 28px;
+    color: #333;
+    width: 100%;
+    z-index: 999;
 }
-main nav ul {
+
+/* COLUMNA IZQUIERDA - Menú lateral FIJO */
+.menu-lateral {
+    flex: 0 0 200px; /* Ancho fijo de 200px */
+    background-color: #87c3bd;
+    padding: 15px;
+    border-radius: 8px;
+    height: fit-content;
+    position: fixed;
+    top: 180px; /* Debajo del título */
+    left: 20px;
+    width: 170px;
+    z-index: 1000;
+}
+
+.menu-lateral ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
-main nav li {
+
+.menu-lateral li {
     margin-bottom: 12px;
 }
-main section {
-    flex: 1;
+
+.menu-lateral a {
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+    display: block;
+    padding: 10px 12px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
 }
+
+.menu-lateral a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* COLUMNA DERECHA - Sección de productos */
+.productos-seccion {
+    flex: 1;
+    margin-left: 220px; /* Espacio para el menú fijo */
+    margin-top: 80px; /* Espacio para el título */
+    width: calc(100% - 240px);
+}
+
+/* Grid de productos EXACTAMENTE 3x3 */
 .card1 {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    justify-items: end; /* Alinea las cards hacia la derecha */
-    justify-content: end; /* Alineación del grid hacia la derecha */
-    width: fit-content; /* El grid solo ocupa el espacio necesario */
+    gap: 20px;
+    width: 100%;
+    justify-items: center;
+    padding: 0;
 }
+
+/* Estilo de las cards de productos */
 .todos-equipajes {
-    border: black 1px solid;
-    width: 280px; 
+    border: 2px solid black;
+    width: 280px;
     height: 420px;
     display: flex;
     flex-direction: column;
@@ -144,18 +186,18 @@ main section {
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
+.todos-equipajes:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
 .todos-equipajes img {
     width: 100%;
     height: 250px;
     object-fit: contain;
     background-color: white;
 }
-.todos-equipajes div {
-    padding: 12px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
+
 
 
