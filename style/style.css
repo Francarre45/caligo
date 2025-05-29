@@ -1,7 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap");
+
 body {
     background-color: #87c3bd;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inconsolata', monospace;
 }
+
 header {
     background-color: #fdf2d9;
     color: black;
@@ -11,111 +16,201 @@ header {
     align-items: center;
     padding: 0 30px;
 }
+
+header h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 0;
+}
+
 header img {
     width: 105px;
     height: 100px;
     margin-left: 0;
 }
+
 header nav ul {
     list-style: none;
     display: flex;
     flex-direction: row;
+    margin: 0;
+    padding: 0;
 }
+
 header a {
     color: black;
+    text-decoration: none;
+    font-weight: 500;
 }
+
+header a:hover {
+    text-decoration: underline;
+}
+
 nav ul li {
     margin: 0 30px;
 }
+
+/* ESTILOS PARA LA PÁGINA DE INICIO */
+main {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+main > section:first-child {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+main > section:first-child h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+main > section:first-child p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #555;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+main > section:nth-child(2) h3 {
+    text-align: center;
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.productos {
+    text-align: center;
+    width: 100%;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 40px;
+    color: #333;
+}
+
+/* LAYOUT DE TARJETAS PARA INDEX */
 .card2 {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 30px;
     margin-bottom: 50px;
 }
+
 .mochilas-bolsos,
 .vali-carryon,
 .accesorios-inicio {
-    border: black 1px solid;
-    margin: 30px;
-    width: 300px;
-    height: auto;
+    border: 2px solid black;
+    width: 320px;
+    min-height: 500px;
     display: flex;
     flex-direction: column;
     background-color: #87c3bd;
-    padding-bottom: 15px;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
+.mochilas-bolsos:hover,
+.vali-carryon:hover,
+.accesorios-inicio:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
 .vali-carryon img,
 .mochilas-bolsos img,
 .accesorios-inicio img {
-    width: 240px;
-    height: 240px;
+    width: 100%;
+    height: 250px;
     object-fit: contain;
-    margin: 10px auto;
     background-color: white;
-    padding: 10px;
+    padding: 20px;
+    box-sizing: border-box;
 }
+
 .vali-carryon p,
 .mochilas-bolsos p,
 .accesorios-inicio p {
-    padding: 0 15px;
-    margin-top: 10px;
-    display: block;
-    visibility: visible;
-}
-.productos {
-    text-align: center;
-    width: 100%;
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 30px;
+    padding: 20px;
+    margin: 0;
+    flex-grow: 1;
+    font-size: 0.95rem;
+    line-height: 1.5;
     color: #333;
+    text-align: justify;
 }
+
+/* FOOTER */
 footer {
-    display: flex;
-    width: 100%;
-    clear: both;
-    margin-top: 30px;
-    position: relative;
     background-color: #fdf2d9;
     color: black;
-    flex-direction: row;
+    padding: 40px 30px 20px;
+    display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
-    align-items: center;
-    padding: 0 30px;
-    box-sizing: border-box;
+    align-items: flex-start;
+    gap: 30px;
+    margin-top: 60px;
 }
+
+footer div {
+    flex: 1;
+    min-width: 200px;
+}
+
+footer h4 {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+footer li {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
 footer a {
     text-decoration: none;
     color: black;
+    font-weight: 400;
 }
-footer .WhatsApp {
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+footer .WhatsApp,
+footer img {
     width: 20px;
     height: 20px;
     object-fit: contain;
 }
-main {
-    display: flex;
-    gap: 30px;
-    padding: 20px;
-    min-height: 100vh;
-    align-items: flex-start;
-}
 
-main h2 {
-    position: absolute;
-    top: 120px;
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
-    margin: 0;
-    font-size: 28px;
-    color: #333;
+footer > p {
     width: 100%;
-    z-index: 999;
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #ccc;
+    font-size: 0.9rem;
+    color: #666;
 }
 
+/* ESTILOS PARA PÁGINAS DE EQUIPAJES (mantener para otras páginas) */
 .menu-lateral {
     flex: 0 0 200px;
     background-color: #87c3bd;
@@ -163,11 +258,13 @@ main h2 {
 
 .card1 {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 20px;
     width: 100%;
     justify-items: center;
     padding: 0;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .todos-equipajes {
@@ -193,7 +290,6 @@ main h2 {
     object-fit: contain;
     background-color: white;
 }
-
 
 
 
