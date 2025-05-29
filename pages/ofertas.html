@@ -1,68 +1,174 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Document</title>
-        <link rel="stylesheet" href="../style/style.css" />
-    </head>
-    <body>
-        <header>
-            <img src="../assest/img/Logo.png" alt="logo del local" />
-            <h1>CALI GO</h1>
-            <nav>
-                <ul>
-                    <li><a href="../index.html">Inicio</a></li>
-                    <li><a href="../pages/quienesomos.html">¿Quiénes somos?</a></li>
-                    <li><a href="../pages/equipajes.html">Equipajes</a></li>
-                    <li><a href="../pages/accesorios.html">Accesorios</a></li>
-                    <li><a href="#">Ofertas</a></li>
-                </ul>
-            </nav>
-        </header>
-        <main>
-            <h2>ENCONTRA LOS MEJORES PRECIOS ACA</h2>
-            <p>
-                ¿Pensando en tu próximo viaje? Este es el momento ideal para renovar tus valijas con nuestros combos especiales de equipaje, pensados para todos los estilos y necesidades. Y lo mejor: te llevás mucho más que una valija.
-                Pagando en efectivo tenés un 10% de descuento directo. ¿Preferís usar tarjeta? Aprovechá 3 cuotas sin interés con tarjeta de crédito. Además, tenemos envíos gratis en compras seleccionadas y regalos sorpresa en algunos
-                combos (hasta agotar stock). Vas a encontrar sets de 2 o 3 valijas, mochilas, carry-ons y más, todo combinado para que viajes cómodo, liviano y con estilo. No lo pienses mucho, los combos vuelan. Consultanos por WhatsApp o
-                pasá por el local. Viajá bien equipado y con beneficios que valen la pena.
-            </p>
-        </main>
-        <footer>
-            <div>
-                <h4>Ayuda</h4>
-                <ul>
-                    <li><a href="#">Locales</a></li>
-                    <li><a href="#">Medios de pagos</a></li>
-                    <li><a href="#">Cómo comprar</a></li>
-                </ul>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CALIGO | Ofertas</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../style/style-bootstrap.css">
+</head>
+<body>
+    
+    <header>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" href="../index.html">
+                    <img src="../assest/img/Logo.png" alt="logo del local" class="logo-img me-3">
+                    <h1>CALIGO</h1>
+                </a>
+                
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="../index.html">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../pages/quienesomos.html">¿Quiénes somos?</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../pages/equipajes.html">Equipajes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../pages/accesorios.html">Accesorios</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">Ofertas</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div>
-                <h4>Contacto</h4>
-                <ul>
-                    <li>
-                        <img src="../assest/img/Logo Whatsapp.png" alt="logo Whatsapp" class="WhatsApp" />
-                        <a href="https://wa.me/1234567890">WhatsApp</a>
-                    </li>
-                    <li><a href="mailto:info@caligo.com">Mail</a></li>
-                    <li><a href="./pages/locales.html">Local</a></li>
-                </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h2 class="page-title">🔥 Ofertas Especiales 🔥</h2>
+        
+        <div class="row">
+            
+            <div class="col-lg-6 col-md-12 mb-4">
+                <div class="offer-card">
+                    <div class="offer-badge">-30%</div>
+                    <img src="../assest/img/Valija Amayra Negra.webp" alt="valija negra en oferta" class="img-fluid">
+                    <h5>Valija Amayra Negra - Tamaño Grande</h5>
+                    <p>Valija rígida con 4 ruedas giratorias 360°, cierre TSA y compartimentos organizadores.</p>
+                    <div class="d-flex align-items-center mb-3">
+                        <span class="original-price me-2">Precio original: $89.990</span>
+                        <span class="offer-price">$62.990</span>
+                        <span class="discount-percent">30% OFF</span>
+                    </div>
+                    <button type="button" class="btn btn-add-cart">¡Comprar ahora!</button>
+                </div>
             </div>
-            <div>
-                <h4>Seguinos en nuestras Redes</h4>
-                <ul>
-                    <li>
-                        <img src="../assest/img/logotipo-de-instagram.png" alt="logo instagram" />
-                        <a href="https://instagram.com/caligo">Instagram</a>
-                    </li>
-                    <li>
-                        <img src="../assest/img/facebook.png" alt="logo facebook" />
-                        <a href="https://facebook.com/caligo">Facebook</a>
-                    </li>
-                </ul>
+
+            
+            <div class="col-lg-6 col-md-12 mb-4">
+                <div class="offer-card">
+                    <div class="offer-badge">-25%</div>
+                    <img src="../assest/img/Mochila Agarrate Violeta.webp" alt="mochila violeta en oferta" class="img-fluid">
+                    <h5>Mochila Agarrate Violeta</h5>
+                    <p>Mochila urbana con compartimento para laptop, resistente al agua y múltiples bolsillos.</p>
+                    <div class="d-flex align-items-center mb-3">
+                        <span class="original-price me-2">Precio original: $35.990</span>
+                        <span class="offer-price">$26.990</span>
+                        <span class="discount-percent">25% OFF</span>
+                    </div>
+                    <button type="button" class="btn btn-add-cart">¡Comprar ahora!</button>
+                </div>
             </div>
-            <p>© 2025 CALI GO - Todos los derechos reservados</p>
-        </footer>
-    </body>
+
+            
+            <div class="col-lg-6 col-md-12 mb-4">
+                <div class="offer-card">
+                    <div class="offer-badge">-40%</div>
+                    <img src="../assest/img/Carry on Tourister Negro.webp" alt="carry on en oferta" class="img-fluid">
+                    <h5>Carry on Tourister Negro</h5>
+                    <p>Equipaje de mano perfecto para viajes cortos, cumple con regulaciones aéreas internacionales.</p>
+                    <div class="d-flex align-items-center mb-3">
+                        <span class="original-price me-2">Precio original: $65.990</span>
+                        <span class="offer-price">$39.590</span>
+                        <span class="discount-percent">40% OFF</span>
+                    </div>
+                    <button type="button" class="btn btn-add-cart">¡Comprar ahora!</button>
+                </div>
+            </div>
+
+            
+            <div class="col-lg-6 col-md-12 mb-4">
+                <div class="offer-card">
+                    <div class="offer-badge">-20%</div>
+                    <img src="../assest/img/RIÑONERA CHIMOLA GRIS.webp" alt="riñonera en oferta" class="img-fluid">
+                    <h5>Pack Accesorios de Viaje</h5>
+                    <p>Incluye: Riñonera Chimola, Candado TSA, Organizador de cables y Antifaz de descanso.</p>
+                    <div class="d-flex align-items-center mb-3">
+                        <span class="original-price me-2">Precio original: $45.990</span>
+                        <span class="offer-price">$36.790</span>
+                        <span class="discount-percent">20% OFF</span>
+                    </div>
+                    <button type="button" class="btn btn-add-cart">¡Comprar ahora!</button>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="alert alert-warning text-center mt-5" role="alert">
+            <h4>⏰ ¡Ofertas por tiempo limitado!</h4>
+            <p class="mb-0">Aprovechá estos descuentos especiales. Válido hasta el 31 de Julio de 2025 o hasta agotar stock.</p>
+        </div>
+    </main>
+
+    
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5>Ayuda</h5>
+                    <ul>
+                        <li><a href="#">Locales</a></li>
+                        <li><a href="#">Medios de pagos</a></li>
+                        <li><a href="#">Cómo comprar</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-md-4 mb-4">
+                    <h5>Contacto</h5>
+                    <ul>
+                        <li>
+                            <img src="../assest/img/Logo Whatsapp.png" alt="logo Whatsapp" class="social-icon">
+                            <a href="https://wa.me/1234567890">WhatsApp</a>
+                        </li>
+                        <li><a href="mailto:info@caligo.com">Mail</a></li>
+                        <li><a href="./locales.html">Local</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-md-4 mb-4">
+                    <h5>Seguinos en nuestras Redes</h5>
+                    <ul>
+                        <li>
+                            <img src="../assest/img/logotipo-de-instagram.png" alt="logo instagram" class="social-icon">
+                            <a href="https://instagram.com/caligo">Instagram</a>
+                        </li>
+                        <li>
+                            <img src="../assest/img/facebook.png" alt="logo facebook" class="social-icon">
+                            <a href="https://facebook.com/caligo">Facebook</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>© 2025 CALI GO - Todos los derechos reservados</p>
+            </div>
+        </div>
+    </footer>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>
