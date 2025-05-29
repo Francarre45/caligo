@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap');
+body{
+    background-color:#87c3bd ;
+}
+header{
+    background-color: #fdf2d9;
+    color: black;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px; 
+}
+header img {
+    width: 105px;
+    height: 100px;
+    margin-left: 0;
+  }
+  header nav ul{
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+}
+header a {
+    color: black;
+}
+nav ul li{
+    margin: 0 30px;
+}
+.card2 {
+    display: flex;
+    justify-content: center; 
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 50px; 
+}
+.mochilas-bolsos,
+.vali-carryon,
+.accesorios-inicio {
+    border: black 1px solid;
+    margin: 30px;
+    width: 300px; 
+    height: auto; 
+    display: flex;
+    flex-direction: column;
+    background-color: #87c3bd;
+    padding-bottom: 15px;
+}
+.vali-carryon img,
+.mochilas-bolsos img,
+.accesorios-inicio img {
+    width: 240px; 
+    height: 240px; 
+    object-fit: contain; 
+    margin: 10px auto; 
+    background-color: white;
+    padding: 10px;
+}
+.vali-carryon p,
+.mochilas-bolsos p,
+.accesorios-inicio p {
+    padding: 0 15px;
+    margin-top: 10px;
+    display: block;
+    visibility: visible; 
+}
+.productos {
+    text-align: center;
+    width: 100%;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #333;
+}
+footer {
+    display: flex;
+    width: 100%;
+    clear: both;
+    margin-top: 30px;
+    position: relative;
+    background-color: #fdf2d9;
+    color: black;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+    box-sizing: border-box;
+}
+footer a {
+    text-decoration: none;
+    color: black;
+}
+footer .WhatsApp {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+.card1 {
+    display:flex;
+    justify-content: center; 
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .todos-equipajes{
+    border: black 1px solid;
+    margin: 30px;
+    width: 300px; 
+    height: 450px;
+    display: flex;
+    flex-direction: column;
+    background-color: #87c3bd;
+}
+main h2 {
+    margin: 0 0 20px 0;
+    writing-mode: horizontal-tb;
+}
+main nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+main nav li {
+    margin-bottom: 12px;
+}
+main section {
+    flex: 1;
+}
+.card1 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    justify-items: end; /* Alinea las cards hacia la derecha */
+    justify-content: end; /* Alineación del grid hacia la derecha */
+    width: fit-content; /* El grid solo ocupa el espacio necesario */
+}
+.todos-equipajes {
+    border: black 1px solid;
+    width: 280px; 
+    height: 420px;
+    display: flex;
+    flex-direction: column;
+    background-color: #87c3bd;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.todos-equipajes img {
+    width: 100%;
+    height: 250px;
+    object-fit: contain;
+    background-color: white;
+}
+.todos-equipajes div {
+    padding: 12px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
