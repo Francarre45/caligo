@@ -290,6 +290,56 @@ footer > p {
     object-fit: contain;
     background-color: white;
 }
+.todos-equipajes div {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex-grow: 1;
+}
 
+.todos-equipajes div p:first-child {
+    font-weight: bold;
+    font-size: 1rem;
+    color: #333;
+    margin: 0;
+}
+
+.todos-equipajes div p:nth-child(2) {
+    font-size: 0.9rem;
+    color: #555;
+    margin: 0;
+}
+
+.todos-equipajes div button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: auto;
+}
+
+.todos-equipajes div button:hover {
+    background-color: #555;
+}
+
+
+.todos-equipajes {
+    display: flex;
+    flex-direction: column;
+    height: 420px;
+}
+
+.todos-equipajes img {
+    width: 100%;
+    height: 250px;
+    object-fit: contain;
+    background-color: white;
+    flex-shrink: 0;
+}
 
 
