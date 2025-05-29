@@ -1,6 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap");
 
-
 body {
     background-color: #87c3bd;
 }
@@ -35,7 +34,6 @@ nav ul li {
     margin: 0 30px;
 }
 
-
 .navbar-brand {
     display: none !important;
 }
@@ -55,6 +53,21 @@ nav ul li {
     margin-left: auto;
 }
 
+@media (min-width: 992px) {
+    .navbar-collapse {
+        display: flex !important;
+    }
+}
+
+@media (max-width: 991px) {
+    .navbar-collapse:not(.show) {
+        display: none !important;
+    }
+
+    .navbar-collapse.show {
+        display: block !important;
+    }
+}
 
 .card2 {
     display: flex;
@@ -106,7 +119,6 @@ nav ul li {
     color: #333;
 }
 
-
 footer {
     display: flex;
     width: 100%;
@@ -132,7 +144,6 @@ footer .WhatsApp {
     height: 20px;
     object-fit: contain;
 }
-
 
 main {
     display: flex;
@@ -233,7 +244,6 @@ main h2 {
     background-color: white;
 }
 
-
 .quienessomos {
     padding: 40px 20px;
     max-width: 1200px;
@@ -254,31 +264,30 @@ main h2 {
     text-align: justify;
 }
 
-
 @media (max-width: 991px) {
     .menu-lateral {
         position: static;
         width: 100%;
         margin-bottom: 20px;
     }
-    
+
     .productos-seccion {
         margin-left: 0;
         margin-top: 20px;
         width: 100%;
     }
-    
+
     main {
         flex-direction: column;
         padding: 10px;
     }
-    
+
     main h2 {
         position: static;
         transform: none;
         margin-bottom: 20px;
     }
-    
+
     .card1 {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -290,22 +299,22 @@ main h2 {
         padding: 15px;
         text-align: center;
     }
-    
+
     header nav ul {
         flex-direction: column;
         gap: 10px;
         margin-top: 15px;
     }
-    
+
     nav ul li {
         margin: 5px 0;
     }
-    
+
     .card2 {
         flex-direction: column;
         align-items: center;
     }
-    
+
     .mochilas-bolsos,
     .vali-carryon,
     .accesorios-inicio {
@@ -313,16 +322,16 @@ main h2 {
         max-width: 350px;
         margin: 15px;
     }
-    
+
     .card1 {
         grid-template-columns: 1fr;
     }
-    
+
     .todos-equipajes {
         width: 100%;
         max-width: 300px;
     }
-    
+
     footer {
         flex-direction: column;
         text-align: center;
