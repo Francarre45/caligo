@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap");
 
-/* Mantener todos los estilos originales exactamente iguales */
+
 body {
     background-color: #87c3bd;
 }
@@ -35,13 +35,14 @@ nav ul li {
     margin: 0 30px;
 }
 
-/* Ajuste mínimo para navbar de Bootstrap manteniendo diseño original */
-.navbar {
-    padding: 0;
-}
 
 .navbar-brand {
+    display: none !important;
+}
+
+.navbar {
     padding: 0;
+    background: transparent !important;
 }
 
 .navbar-nav {
@@ -51,9 +52,10 @@ nav ul li {
 .navbar-toggler {
     border: none;
     padding: 4px 8px;
+    margin-left: auto;
 }
 
-/* Cards originales sin cambios */
+
 .card2 {
     display: flex;
     justify-content: center;
@@ -104,7 +106,7 @@ nav ul li {
     color: #333;
 }
 
-/* Footer original */
+
 footer {
     display: flex;
     width: 100%;
@@ -131,7 +133,7 @@ footer .WhatsApp {
     object-fit: contain;
 }
 
-/* Estilos para páginas de catálogo - manteniendo diseño original */
+
 main {
     display: flex;
     gap: 30px;
@@ -231,7 +233,7 @@ main h2 {
     background-color: white;
 }
 
-/* Página Quiénes Somos - mantener estilo original */
+
 .quienessomos {
     padding: 40px 20px;
     max-width: 1200px;
@@ -252,7 +254,7 @@ main h2 {
     text-align: justify;
 }
 
-/* Ajustes responsivos mínimos sin cambiar colores */
+
 @media (max-width: 991px) {
     .menu-lateral {
         position: static;

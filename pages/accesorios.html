@@ -4,194 +4,142 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CALIGO | Accesorios</title>
-    
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <link rel="stylesheet" href="../style/style-bootstrap.css">
+  
+    <link rel="stylesheet" href="../style/style.css">
 </head>
 <body>
-    
     <header>
-        <nav class="navbar navbar-expand-lg">
-            <div class="container">
-                <a class="navbar-brand d-flex align-items-center" href="../index.html">
-                    <img src="../assest/img/Logo.png" alt="logo del local" class="logo-img me-3">
-                    <h1>CALIGO</h1>
-                </a>
-                
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="../index.html">Inicio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="../pages/quienesomos.html">¿Quiénes somos?</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="../pages/equipajes.html">Equipajes</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#">Accesorios</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="../pages/ofertas.html">Ofertas</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+        <img src="../assest/img/Logo.png" alt="logo del local" />
+        <h1>CALI GO</h1>
+        
+        <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <nav class="collapse navbar-collapse" id="navbarNav">
+            <ul>
+                <li><a href="../index.html">Inicio</a></li>
+                <li><a href="../pages/quienesomos.html">¿Quiénes somos?</a></li>
+                <li><a href="../pages/equipajes.html">Equipajes</a></li>
+                <li><a href="#">Accesorios</a></li>
+                <li><a href="../pages/ofertas.html">Ofertas</a></li>
+            </ul>
         </nav>
     </header>
 
-    <main class="container-fluid">
-        <h2 class="page-title">Categorías de Accesorios</h2>
-        
-        <div class="row">
-            
-            <div class="col-lg-3 col-md-4">
-                <div class="sidebar">
-                    <h5>Categorías</h5>
-                    <nav class="nav flex-column">
-                        <a class="nav-link" href="#todos-los-accesorios">Todos los accesorios</a>
-                        <a class="nav-link" href="#antifaz">Antifaz</a>
-                        <a class="nav-link" href="#riñonera">Riñoneras</a>
-                        <a class="nav-link" href="#balanza">Balanza</a>
-                        <a class="nav-link" href="#candados">Candados</a>
-                        <a class="nav-link" href="#botellas">Botellas</a>
-                        <a class="nav-link" href="#agenda">Agenda</a>
-                    </nav>
-                </div>
+    <main>
+        <h2>Categorías de Accesorios</h2>
+
+        <nav class="menu-lateral">
+            <ul>
+                <li><a href="#todos-losaccesorios">Todos los accesorios</a></li>
+                <li><a href="#antifaz">Antifaz</a></li>
+                <li><a href="#riñonera">Riñoneras</a></li>
+                <li><a href="#balanza">Balanza</a></li>
+                <li><a href="#Candados">Candados</a></li>
+                <li><a href="#botellas">Botellas</a></li>
+                <li><a href="#Agenda">Agenda</a></li>
+            </ul>
+        </nav>
+
+        <section class="productos-seccion">
+            <div class="card1">
+                <article class="todos-equipajes">
+                    <img src="../assest/img/AGENDA MOOVING DIARIA NEGRA .jpg" alt="agenda mooving negra">
+                    <div>
+                        <p>Agenda Mooving Negra</p>
+                        <p><strong>Precio:</strong> $25.990</p>
+                        <button type="button">Añadir al carrito</button>
+                    </div>
+                </article>
+
+                <article class="todos-equipajes">
+                    <img src="../assest/img/Botella Contigo Celeste.webp" alt="Botella contigo celeste">
+                    <div>
+                        <p>Botella contigo Celeste</p>
+                        <p><strong>Precio:</strong> $18.990</p>
+                        <button type="button">Añadir al carrito</button>
+                    </div>
+                </article>
+
+                <article class="todos-equipajes">
+                    <img src="../assest/img/Candado TSA azul.webp" alt="candado tsa azul">
+                    <div>
+                        <p>Candado Tsa azul</p>
+                        <p><strong>Precio:</strong> $12.990</p>
+                        <button type="button">Añadir al carrito</button>
+                    </div>
+                </article>
+
+                <article class="todos-equipajes">
+                    <img src="../assest/img/Neceser Xtreme Voyager gris.webp" alt="Neceser xtreme gris">
+                    <div>
+                        <p>Neceser xtreme Voyager gris</p>
+                        <p><strong>Precio:</strong> $22.990</p>
+                        <button type="button">Añadir al carrito</button>
+                    </div>
+                </article>
+
+                <article class="todos-equipajes">
+                    <img src="../assest/img/RIÑONERA CHIMOLA GRIS.webp" alt="riñonera chimola gris">
+                    <div>
+                        <p>Riñonera Chimola Gris</p>
+                        <p><strong>Precio:</strong> $15.990</p>
+                        <button type="button">Añadir al carrito</button>
+                    </div>
+                </article>
+
+                <article class="todos-equipajes">
+                    <img src="../assest/img/perfumeros.webp" alt="perfumero">
+                    <div>
+                        <p>perfumeros</p>
+                        <p><strong>Precio:</strong> $8.990</p>
+                        <button type="button">Añadir al carrito</button>
+                    </div>
+                </article>
             </div>
-            
-            
-            <div class="col-lg-9 col-md-8">
-                <div class="row" id="todos-los-accesorios">
-                    
-                    <div class="col-xl-4 col-lg-6 col-md-12 mb-4">
-                        <div class="catalog-product-card">
-                            <img src="../assest/img/AGENDA MOOVING DIARIA NEGRA .jpg" alt="agenda mooving negra" class="img-fluid">
-                            <div class="product-info">
-                                <p>Agenda Mooving Negra</p>
-                                <p class="price">Precio: $25.990</p>
-                                <button type="button" class="btn btn-add-cart">Añadir al carrito</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    
-                    <div class="col-xl-4 col-lg-6 col-md-12 mb-4">
-                        <div class="catalog-product-card">
-                            <img src="../assest/img/Botella Contigo Celeste.webp" alt="Botella contigo celeste" class="img-fluid">
-                            <div class="product-info">
-                                <p>Botella contigo Celeste</p>
-                                <p class="price">Precio: $18.990</p>
-                                <button type="button" class="btn btn-add-cart">Añadir al carrito</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    
-                    <div class="col-xl-4 col-lg-6 col-md-12 mb-4">
-                        <div class="catalog-product-card">
-                            <img src="../assest/img/Candado TSA azul.webp" alt="candado tsa azul" class="img-fluid">
-                            <div class="product-info">
-                                <p>Candado TSA azul</p>
-                                <p class="price">Precio: $12.990</p>
-                                <button type="button" class="btn btn-add-cart">Añadir al carrito</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    
-                    <div class="col-xl-4 col-lg-6 col-md-12 mb-4">
-                        <div class="catalog-product-card">
-                            <img src="../assest/img/Neceser Xtreme Voyager gris.webp" alt="Neceser xtreme gris" class="img-fluid">
-                            <div class="product-info">
-                                <p>Neceser xtreme Voyager gris</p>
-                                <p class="price">Precio: $22.990</p>
-                                <button type="button" class="btn btn-add-cart">Añadir al carrito</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    
-                    <div class="col-xl-4 col-lg-6 col-md-12 mb-4">
-                        <div class="catalog-product-card">
-                            <img src="../assest/img/RIÑONERA CHIMOLA GRIS.webp" alt="riñonera chimola gris" class="img-fluid">
-                            <div class="product-info">
-                                <p>Riñonera Chimola Gris</p>
-                                <p class="price">Precio: $15.990</p>
-                                <button type="button" class="btn btn-add-cart">Añadir al carrito</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    
-                    <div class="col-xl-4 col-lg-6 col-md-12 mb-4">
-                        <div class="catalog-product-card">
-                            <img src="../assest/img/perfumeros.webp" alt="perfumero" class="img-fluid">
-                            <div class="product-info">
-                                <p>Perfumeros</p>
-                                <p class="price">Precio: $8.990</p>
-                                <button type="button" class="btn btn-add-cart">Añadir al carrito</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </section>
     </main>
 
-    
     <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 mb-4">
-                    <h5>Ayuda</h5>
-                    <ul>
-                        <li><a href="#">Locales</a></li>
-                        <li><a href="#">Medios de pagos</a></li>
-                        <li><a href="#">Cómo comprar</a></li>
-                    </ul>
-                </div>
-                
-                <div class="col-md-4 mb-4">
-                    <h5>Contacto</h5>
-                    <ul>
-                        <li>
-                            <img src="../assest/img/Logo Whatsapp.png" alt="logo Whatsapp" class="social-icon">
-                            <a href="https://wa.me/1234567890">WhatsApp</a>
-                        </li>
-                        <li><a href="mailto:info@caligo.com">Mail</a></li>
-                        <li><a href="./locales.html">Local</a></li>
-                    </ul>
-                </div>
-                
-                <div class="col-md-4 mb-4">
-                    <h5>Seguinos en nuestras Redes</h5>
-                    <ul>
-                        <li>
-                            <img src="../assest/img/logotipo-de-instagram.png" alt="logo instagram" class="social-icon">
-                            <a href="https://instagram.com/caligo">Instagram</a>
-                        </li>
-                        <li>
-                            <img src="../assest/img/facebook.png" alt="logo facebook" class="social-icon">
-                            <a href="https://facebook.com/caligo">Facebook</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="copyright">
-                <p>© 2025 CALI GO - Todos los derechos reservados</p>
-            </div>
+        <div>
+            <h4>Ayuda</h4>
+            <ul>
+                <li><a href="#">Locales</a></li>
+                <li><a href="#">Medios de pagos</a></li>
+                <li><a href="#">Cómo comprar</a></li>
+            </ul>
         </div>
+        <div>
+            <h4>Contacto</h4>
+            <ul>
+                <li>
+                    <img src="../assest/img/Logo Whatsapp.png" alt="logo Whatsapp" class="WhatsApp" />
+                    <a href="https://wa.me/1234567890">WhatsApp</a>
+                </li>
+                <li><a href="mailto:info@caligo.com">Mail</a></li>
+                <li><a href="./pages/locales.html">Local</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4>Seguinos en nuestras Redes</h4>
+            <ul>
+                <li>
+                    <img src="../assest/img/logotipo-de-instagram.png" alt="logo instagram" />
+                    <a href="https://instagram.com/caligo">Instagram</a>
+                </li>
+                <li>
+                    <img src="../assest/img/facebook.png" alt="logo facebook" />
+                    <a href="https://facebook.com/caligo">Facebook</a>
+                </li>
+            </ul>
+        </div>
+        <p>© 2025 CALI GO - Todos los derechos reservados</p>
     </footer>
 
-    
+ 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
