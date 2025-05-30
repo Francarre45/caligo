@@ -1,0 +1,269 @@
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin flex-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@mixin flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+@mixin reset-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+@mixin title-center($size: $font-size-xl) {
+    text-align: center;
+    font-size: $size;
+    color: $text-dark;
+    font-weight: bold;
+}
+
+@mixin caligo-card-hover {
+    transition: $transition-hover;
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: $shadow-card;
+    }
+}
+
+@mixin caligo-button {
+    background-color: $caligo-beige;
+    color: $text-black;
+    border: $border-thick;
+    padding: 8px 16px;
+    border-radius: $border-radius-small;
+    font-weight: 500;
+    transition: all $transition-fast;
+    cursor: pointer;
+
+    &:hover {
+        background-color: $text-black;
+        color: $caligo-beige;
+    }
+}
+
+@mixin caligo-link {
+    color: $text-black;
+    text-decoration: none;
+    transition: $transition-fast;
+
+    &:hover {
+        color: $caligo-green;
+    }
+}
+
+@mixin product-card($width: $card-width) {
+    border: $border-thin;
+    margin: $space-xl;
+    width: $width;
+    height: auto;
+    @include flex-column;
+    background-color: $caligo-green;
+    padding-bottom: $space-md;
+    @include caligo-card-hover;
+
+    img {
+        width: $card-image-size;
+        height: $card-image-size;
+        object-fit: contain;
+        margin: $space-sm auto;
+        background-color: $white;
+        padding: $space-sm;
+    }
+
+    p {
+        padding: 0 $space-md;
+        margin-top: $space-sm;
+        display: block;
+        visibility: visible;
+    }
+}
+
+@mixin mobile {
+    @media (max-width: $mobile-max) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (max-width: $tablet-max) {
+        @content;
+    }
+}
+
+@mixin desktop {
+    @media (min-width: $desktop-min) {
+        @content;
+    }
+}
+
+@mixin caligo-grid($desktop: 3, $tablet: 2, $mobile: 1) {
+    display: grid;
+    gap: $space-lg;
+    grid-template-columns: repeat($desktop, 1fr);
+
+    @include tablet {
+        grid-template-columns: repeat($tablet, 1fr);
+    }
+
+    @include mobile {
+        grid-template-columns: repeat($mobile, 1fr);
+    }
+}
+
+@mixin caligo-navbar-mobile {
+    .navbar-collapse {
+        display: none !important;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: $caligo-beige;
+        border: $border-thick;
+        border-top: none;
+        padding: $space-lg;
+        z-index: $z-navbar;
+
+        &.show {
+            display: block !important;
+        }
+
+        ul {
+            @include flex-column;
+            gap: $space-md;
+            margin: 0;
+            padding: 0;
+
+            li {
+                margin: 0 !important;
+                text-align: center;
+
+                a {
+                    display: block;
+                    padding: $space-sm $space-md;
+                    border-radius: $border-radius-small;
+                    transition: background-color $transition-fast;
+
+                    &:hover {
+                        background-color: $caligo-green;
+                        color: $white;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@mixin caligo-header {
+    background-color: $caligo-beige;
+    color: $text-black;
+    @include flex-between;
+    padding: 0 $space-xl;
+
+    img {
+        width: $logo-desktop-width;
+        height: $logo-desktop-height;
+        margin-left: 0;
+    }
+
+    h1 {
+        margin: 0;
+        font-weight: bold;
+    }
+
+    nav ul {
+        @include reset-list;
+        display: flex;
+        flex-direction: row;
+
+        li {
+            margin: 0 $space-xl;
+
+            a {
+                @include caligo-link;
+            }
+        }
+    }
+}
+
+@mixin caligo-sidebar {
+    flex: 0 0 $sidebar-width;
+    background-color: $caligo-green;
+    padding: $space-md;
+    border-radius: $border-radius;
+    height: fit-content;
+    position: fixed;
+    top: $sidebar-top-position;
+    left: $space-lg;
+    width: $sidebar-fixed-width;
+    z-index: $z-sidebar;
+
+    ul {
+        @include reset-list;
+
+        li {
+            margin-bottom: 12px;
+
+            a {
+                text-decoration: none;
+                color: $text-black;
+                font-weight: 500;
+                display: block;
+                padding: $space-sm 12px;
+                border-radius: $border-radius-small;
+                transition: background-color $transition-fast;
+                font-size: $font-size-small;
+
+                &:hover {
+                    background-color: rgba($white, 0.2);
+                }
+            }
+        }
+    }
+}
+
+@mixin caligo-footer {
+    @include flex-between;
+    width: 100%;
+    clear: both;
+    margin-top: $space-xl;
+    position: relative;
+    background-color: $caligo-beige;
+    color: $text-black;
+    padding: 0 $space-xl;
+    box-sizing: border-box;
+
+    a {
+        @include caligo-link;
+    }
+
+    .WhatsApp {
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+    }
+
+    ul {
+        @include reset-list;
+
+        li {
+            margin-bottom: 8px;
+        }
+    }
+
+    h4 {
+        font-weight: bold;
+        margin-bottom: $space-lg;
+    }
+}

@@ -1,6 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap");
 
-
 body {
     background-color: #87c3bd;
 }
@@ -35,7 +34,6 @@ nav ul li {
     margin: 0 30px;
 }
 
-
 .navbar-brand {
     display: none !important;
 }
@@ -55,7 +53,6 @@ nav ul li {
     margin-left: auto;
 }
 
-
 .navbar-toggler {
     border: 2px solid black;
     padding: 6px 10px;
@@ -70,17 +67,15 @@ nav ul li {
     height: 20px;
 }
 
-
 @media (min-width: 992px) {
     .navbar-collapse {
         display: flex !important;
     }
-    
+
     .navbar-toggler {
         display: none !important;
     }
 }
-
 
 @media (max-width: 991px) {
     .navbar-collapse {
@@ -95,36 +90,35 @@ nav ul li {
         padding: 20px;
         z-index: 1000;
     }
-    
+
     .navbar-collapse.show {
         display: block !important;
     }
-    
+
     .navbar-collapse ul {
         flex-direction: column !important;
         gap: 15px;
         margin: 0;
         padding: 0;
     }
-    
+
     .navbar-collapse ul li {
         margin: 0 !important;
         text-align: center;
     }
-    
+
     .navbar-collapse ul li a {
         display: block;
         padding: 10px 15px;
         border-radius: 4px;
         transition: background-color 0.3s ease;
     }
-    
+
     .navbar-collapse ul li a:hover {
         background-color: #87c3bd;
         color: white;
     }
 }
-
 
 main {
     padding: 20px;
@@ -166,7 +160,6 @@ main section h3 {
     margin-bottom: 30px;
     color: #333;
 }
-
 
 .card2 {
     display: flex;
@@ -210,7 +203,6 @@ main section h3 {
     visibility: visible;
 }
 
-
 footer {
     display: flex;
     width: 100%;
@@ -236,7 +228,6 @@ footer .WhatsApp {
     height: 20px;
     object-fit: contain;
 }
-
 
 main.catalog-layout {
     display: flex;
@@ -337,7 +328,6 @@ main.catalog-layout h2 {
     background-color: white;
 }
 
-
 .quienessomos {
     padding: 40px 20px;
     max-width: 1200px;
@@ -358,31 +348,30 @@ main.catalog-layout h2 {
     text-align: justify;
 }
 
-
 @media (max-width: 991px) {
     .menu-lateral {
         position: static;
         width: 100%;
         margin-bottom: 20px;
     }
-    
+
     .productos-seccion {
         margin-left: 0;
         margin-top: 20px;
         width: 100%;
     }
-    
+
     main.catalog-layout {
         flex-direction: column;
         padding: 10px;
     }
-    
+
     main.catalog-layout h2 {
         position: static;
         transform: none;
         margin-bottom: 20px;
     }
-    
+
     .card1 {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -395,30 +384,28 @@ main.catalog-layout h2 {
         text-align: center;
         position: relative;
     }
-    
-    
+
     header img {
         width: 80px;
         height: 75px;
     }
-    
+
     header h1 {
         margin: 10px 0;
         font-size: 1.5rem;
     }
-    
-    
+
     .navbar-toggler {
         position: absolute;
         top: 15px;
         right: 15px;
     }
-    
+
     .card2 {
         flex-direction: column;
         align-items: center;
     }
-    
+
     .mochilas-bolsos,
     .vali-carryon,
     .accesorios-inicio {
@@ -426,16 +413,16 @@ main.catalog-layout h2 {
         max-width: 350px;
         margin: 15px;
     }
-    
+
     .card1 {
         grid-template-columns: 1fr;
     }
-    
+
     .todos-equipajes {
         width: 100%;
         max-width: 300px;
     }
-    
+
     footer {
         flex-direction: column;
         text-align: center;
