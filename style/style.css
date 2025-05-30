@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap");
 
-/* Mantener todos los estilos originales exactamente iguales */
+
 body {
     background-color: #87c3bd;
 }
@@ -35,7 +35,7 @@ nav ul li {
     margin: 0 30px;
 }
 
-/* Ocultar elementos de Bootstrap que interfieren */
+
 .navbar-brand {
     display: none !important;
 }
@@ -55,24 +55,77 @@ nav ul li {
     margin-left: auto;
 }
 
-/* Mostrar menú en desktop, ocultar en móviles */
+
+.navbar-toggler {
+    border: 2px solid black;
+    padding: 6px 10px;
+    margin-left: auto;
+    background-color: #fdf2d9;
+    border-radius: 4px;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2833, 37, 41, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    width: 20px;
+    height: 20px;
+}
+
+
 @media (min-width: 992px) {
     .navbar-collapse {
         display: flex !important;
     }
+    
+    .navbar-toggler {
+        display: none !important;
+    }
 }
 
+
 @media (max-width: 991px) {
-    .navbar-collapse:not(.show) {
+    .navbar-collapse {
         display: none !important;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: #fdf2d9;
+        border: 2px solid black;
+        border-top: none;
+        padding: 20px;
+        z-index: 1000;
     }
     
     .navbar-collapse.show {
         display: block !important;
     }
+    
+    .navbar-collapse ul {
+        flex-direction: column !important;
+        gap: 15px;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .navbar-collapse ul li {
+        margin: 0 !important;
+        text-align: center;
+    }
+    
+    .navbar-collapse ul li a {
+        display: block;
+        padding: 10px 15px;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+    }
+    
+    .navbar-collapse ul li a:hover {
+        background-color: #87c3bd;
+        color: white;
+    }
 }
 
-/* SECCIÓN PRINCIPAL INDEX - LAYOUT CORREGIDO */
+
 main {
     padding: 20px;
 }
@@ -114,7 +167,7 @@ main section h3 {
     color: #333;
 }
 
-/* Cards originales sin cambios */
+
 .card2 {
     display: flex;
     justify-content: center;
@@ -157,7 +210,7 @@ main section h3 {
     visibility: visible;
 }
 
-/* Footer original */
+
 footer {
     display: flex;
     width: 100%;
@@ -184,7 +237,7 @@ footer .WhatsApp {
     object-fit: contain;
 }
 
-/* PÁGINAS DE CATÁLOGO (equipajes, accesorios) */
+
 main.catalog-layout {
     display: flex;
     gap: 30px;
@@ -284,7 +337,7 @@ main.catalog-layout h2 {
     background-color: white;
 }
 
-/* Página Quiénes Somos - mantener estilo original */
+
 .quienessomos {
     padding: 40px 20px;
     max-width: 1200px;
@@ -305,7 +358,7 @@ main.catalog-layout h2 {
     text-align: justify;
 }
 
-/* Ajustes responsivos */
+
 @media (max-width: 991px) {
     .menu-lateral {
         position: static;
@@ -340,16 +393,25 @@ main.catalog-layout h2 {
         flex-direction: column;
         padding: 15px;
         text-align: center;
+        position: relative;
     }
     
-    header nav ul {
-        flex-direction: column;
-        gap: 10px;
-        margin-top: 15px;
+    
+    header img {
+        width: 80px;
+        height: 75px;
     }
     
-    nav ul li {
-        margin: 5px 0;
+    header h1 {
+        margin: 10px 0;
+        font-size: 1.5rem;
+    }
+    
+    
+    .navbar-toggler {
+        position: absolute;
+        top: 15px;
+        right: 15px;
     }
     
     .card2 {
