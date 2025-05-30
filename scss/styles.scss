@@ -1,0 +1,322 @@
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap");
+
+@import "variables";
+@import "mixins";
+
+body {
+    background-color: $caligo-green;
+    font-family: $font-inconsolata;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    @include caligo-header;
+}
+
+.navbar-brand {
+    display: none !important;
+}
+
+.navbar {
+    padding: 0;
+    background: transparent !important;
+}
+
+.navbar-toggler {
+    border: $border-thick;
+    padding: 6px 10px;
+    margin-left: auto;
+    background-color: $caligo-beige;
+    border-radius: $border-radius-small;
+
+    &-icon {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2833, 37, 41, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        width: 20px;
+        height: 20px;
+    }
+}
+
+main {
+    padding: $space-lg;
+
+    section {
+        margin-bottom: $space-xxl;
+
+        &:first-child {
+            text-align: left;
+            padding: $space-lg;
+
+            p {
+                color: $text-dark;
+                line-height: 1.6;
+                margin-bottom: $space-xl;
+            }
+        }
+
+        h2 {
+            @include title-center;
+            margin: $space-xl 0 $space-lg 0;
+        }
+
+        h3 {
+            font-size: $font-size-large;
+            color: $text-dark;
+            margin-bottom: $space-lg;
+        }
+    }
+}
+
+.productos {
+    @include title-center($font-size-large);
+    width: 100%;
+    margin-bottom: $space-xl;
+}
+
+.card2 {
+    @include flex-center;
+    flex-wrap: wrap;
+    gap: $space-lg;
+    margin-bottom: $space-xxxl;
+    margin-top: $space-lg;
+}
+
+.mochilas-bolsos,
+.vali-carryon,
+.accesorios-inicio {
+    @include product-card;
+}
+
+main.catalog-layout {
+    display: flex;
+    gap: $space-xl;
+    padding: $space-lg;
+    min-height: 100vh;
+    align-items: flex-start;
+
+    h2 {
+        position: absolute;
+        top: 120px;
+        left: 50%;
+        transform: translateX(-50%);
+        @include title-center;
+        margin: 0;
+        width: 100%;
+        z-index: $z-title;
+    }
+}
+
+.menu-lateral {
+    @include caligo-sidebar;
+}
+
+.productos-seccion {
+    flex: 1;
+    margin-left: 220px;
+    margin-top: 80px;
+    width: calc(100% - 240px);
+}
+
+.card1 {
+    @include caligo-grid;
+    width: 100%;
+    justify-items: center;
+    padding: 0;
+}
+
+.todos-equipajes {
+    border: $border-thick;
+    width: $card-catalog-width;
+    height: $card-catalog-height;
+    @include flex-column;
+    background-color: $caligo-green;
+    border-radius: $border-radius;
+    overflow: hidden;
+    @include caligo-card-hover;
+
+    img {
+        width: 100%;
+        height: $card-image-height;
+        object-fit: contain;
+        background-color: $white;
+    }
+
+    div {
+        padding: $space-lg;
+
+        p {
+            color: $text-dark;
+            margin-bottom: $space-sm;
+
+            &:last-of-type {
+                font-weight: bold;
+                font-size: 1.1rem;
+                color: darken($text-dark, 10%);
+            }
+        }
+
+        button {
+            @include caligo-button;
+        }
+    }
+}
+
+.quienessomos {
+    padding: $space-xxl $space-lg;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    h2 {
+        @include title-center;
+        margin-bottom: $space-xl;
+    }
+
+    p {
+        font-size: $font-size-base;
+        line-height: 1.6;
+        color: $text-dark;
+        text-align: justify;
+    }
+}
+
+.offer-section {
+    h2 {
+        @include title-center($font-size-xxl);
+        margin: $space-xxl 0;
+
+        &::before,
+        &::after {
+            content: "🔥";
+            margin: 0 $space-sm;
+        }
+    }
+}
+
+.offer-card {
+    @include product-card;
+    position: relative;
+
+    &::before {
+        content: "OFERTA";
+        position: absolute;
+        top: $space-sm;
+        right: $space-sm;
+        background-color: $accent-red;
+        color: $white;
+        padding: $space-xs $space-sm;
+        border-radius: $border-radius-small;
+        font-size: $font-size-small;
+        font-weight: bold;
+        z-index: 10;
+    }
+}
+
+footer {
+    @include caligo-footer;
+}
+
+@include desktop {
+    .navbar-collapse {
+        display: flex !important;
+    }
+
+    .navbar-toggler {
+        display: none !important;
+    }
+}
+
+@include tablet {
+    @include caligo-navbar-mobile;
+
+    .menu-lateral {
+        position: static;
+        width: 100%;
+        margin-bottom: $space-lg;
+    }
+
+    .productos-seccion {
+        margin-left: 0;
+        margin-top: $space-lg;
+        width: 100%;
+    }
+
+    main.catalog-layout {
+        flex-direction: column;
+        padding: $space-sm;
+
+        h2 {
+            position: static;
+            transform: none;
+            margin-bottom: $space-lg;
+        }
+    }
+}
+
+@include mobile {
+    header {
+        flex-direction: column;
+        padding: $space-md;
+        text-align: center;
+        position: relative;
+
+        img {
+            width: $logo-mobile-width;
+            height: $logo-mobile-height;
+        }
+
+        h1 {
+            margin: $space-sm 0;
+            font-size: 1.5rem;
+        }
+    }
+
+    .navbar-toggler {
+        position: absolute;
+        top: $space-md;
+        right: $space-md;
+    }
+
+    .card2 {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .mochilas-bolsos,
+    .vali-carryon,
+    .accesorios-inicio {
+        width: 90%;
+        max-width: 350px;
+        margin: $space-md;
+    }
+
+    .todos-equipajes {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    footer {
+        flex-direction: column;
+        text-align: center;
+        padding: $space-lg;
+        gap: $space-lg;
+    }
+}
+
+.hidden {
+    display: none !important;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.mt-large {
+    margin-top: $space-xxl;
+}
+
+.mb-large {
+    margin-bottom: $space-xxl;
+}
+
+
+
