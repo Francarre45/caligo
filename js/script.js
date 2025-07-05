@@ -676,8 +676,15 @@ function clasificarCliente(cantidadCompras) {
 }
 
 function iniciarProcesoCompra() {
-   crearModalNombre();
-   return;
+   if (nombreUsuario && nombreUsuario !== "") {
+       if (productosEnCarrito.length > 0) {
+           mostrarResumenCarrito();
+       } else {
+           mostrarMensajeBienvenida();
+       }
+   } else {
+       crearModalNombre();
+   }
 }
 
 function mostrarProductosDestacados() {
