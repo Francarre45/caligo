@@ -39,11 +39,11 @@ function cargarDesdeLocalStorage() {
 }
 
 function limpiarLocalStorage() {
-    localStorage.removeItem('caligo-carrito');
     productosEnCarrito = [];
     cantidadProductosCarrito = 0;
     totalCarrito = 0;
-    nombreUsuario = "";
+    
+    guardarEnLocalStorage();
 }
 
 function verificarUsuarioExistente() {
