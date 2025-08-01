@@ -1,0 +1,102 @@
+{
+  "equipajes": [
+    {
+      "id": 1,
+      "nombre": "Valija Gris amayra - Tamaño Grande",
+      "precio": 89990,
+      "imagen": "./assest/img/Valija Amayra Gris.webp",
+      "categoria": "equipajes",
+      "descripcion": "Valija rígida de gran tamaño con ruedas giratorias 360°"
+    },
+    {
+      "id": 2,
+      "nombre": "Carry on Tourister negro",
+      "precio": 65990,
+      "imagen": "./assest/img/Carry on Tourister Negro.webp",
+      "categoria": "carry-on",
+      "descripcion": "Equipaje de cabina con compartimentos organizadores"
+    },
+    {
+      "id": 3,
+      "nombre": "Valija Discovery celeste",
+      "precio": 75990,
+      "imagen": "./assest/img/Valija Discovery Celeste.webp",
+      "categoria": "equipajes",
+      "descripcion": "Valija expandible con cierre TSA incluido"
+    },
+    {
+      "id": 4,
+      "nombre": "Carry on Wanderlust gris",
+      "precio": 58990,
+      "imagen": "./assest/img/Carry on Wanderlust Gris.webp",
+      "categoria": "carry-on",
+      "descripcion": "Maleta de cabina ultraliviana para viajes frecuentes"
+    },
+    {
+      "id": 5,
+      "nombre": "Valija check in hard negra",
+      "precio": 95990,
+      "imagen": "./assest/img/Valija chek in hard negra.webp",
+      "categoria": "equipajes",
+      "descripcion": "Valija de gran resistencia para viajes largos"
+    },
+    {
+      "id": 6,
+      "nombre": "Mochila discovery Negra",
+      "precio": 42990,
+      "imagen": "./assest/img/Mochi Discovery Negra.webp",
+      "categoria": "mochilas",
+      "descripcion": "Mochila urbana con compartimento para laptop"
+    }
+  ],
+  "accesorios": [
+    {
+      "id": 7,
+      "nombre": "Agenda Mooving Negra",
+      "precio": 15990,
+      "imagen": "./assest/img/AGENDA MOOVING DIARIA NEGRA .jpg",
+      "categoria": "agenda",
+      "descripcion": "Agenda diaria para organizar tus viajes"
+    },
+    {
+      "id": 8,
+      "nombre": "Botella contigo Celeste",
+      "precio": 25990,
+      "imagen": "./assest/img/Botella Contigo Celeste.webp",
+      "categoria": "botellas",
+      "descripcion": "Botella térmica para mantener temperatura"
+    },
+    {
+      "id": 9,
+      "nombre": "Candado Tsa azul",
+      "precio": 8990,
+      "imagen": "./assest/img/Candado TSA azul.webp",
+      "categoria": "candados",
+      "descripcion": "Candado de seguridad con combinación TSA"
+    },
+    {
+      "id": 10,
+      "nombre": "Neceser xtreme Voyager gris",
+      "precio": 32990,
+      "imagen": "./assest/img/Neceser Xtreme Voyager gris.webp",
+      "categoria": "neceser",
+      "descripcion": "Organizador de artículos de higiene personal"
+    },
+    {
+      "id": 11,
+      "nombre": "Riñonera Chimola Gris",
+      "precio": 18990,
+      "imagen": "./assest/img/RIÑONERA CHIMOLA GRIS.webp",
+      "categoria": "riñonera",
+      "descripcion": "Riñonera práctica para llevar documentos"
+    },
+    {
+      "id": 12,
+      "nombre": "Perfumeros",
+      "precio": 12990,
+      "imagen": "./assest/img/perfumeros.webp",
+      "categoria": "perfumeros",
+      "descripcion": "Set de frascos para perfumes de viaje"
+    }
+  ]
+}
