@@ -138,32 +138,106 @@ function mostrarResumenCarrito() {
 
 function mostrarFormularioCompra() {
     Swal.fire({
-        title: 'Finalizar Compra',
+        title: '🛒 Finalizar Compra',
         html: `
-            <form id="checkout-form">
-                <input type="text" id="nombre" placeholder="Nombre completo" value="Juan Pérez" required style="width: 100%; margin: 5px 0; padding: 10px;">
-                <input type="email" id="email" placeholder="Email" value="juan@email.com" required style="width: 100%; margin: 5px 0; padding: 10px;">
-                <input type="tel" id="telefono" placeholder="Teléfono" value="1234567890" required style="width: 100%; margin: 5px 0; padding: 10px;">
-                <select id="pago" style="width: 100%; margin: 5px 0; padding: 10px;">
-                    <option value="tarjeta">Tarjeta de Crédito</option>
-                    <option value="efectivo">Efectivo (10% descuento)</option>
-                </select>
-            </form>
+            <style>
+                .checkout-form { max-height: 400px; overflow-y: auto; padding: 10px; }
+                .form-group { margin-bottom: 15px; text-align: left; }
+                .form-group label { display: block; font-weight: bold; margin-bottom: 5px; color: #333; }
+                .form-input { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 14px; }
+                .form-input:focus { border-color: #28a745; outline: none; }
+                .resumen-compra { background: #87c3bd; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+                .payment-options { display: grid; gap: 10px; margin-top: 10px; }
+                .payment-option { display: flex; align-items: center; padding: 12px; border: 2px solid #ddd; border-radius: 8px; cursor: pointer; transition: all 0.3s; }
+                .payment-option:hover { border-color: #28a745; background: #f8f9fa; }
+                .payment-option input[type="radio"] { margin-right: 10px; }
+                .payment-icon { font-size: 20px; margin-right: 8px; }
+                .total-section { background: #87c3bd; padding: 15px; border-radius: 8px; margin-top: 15px; text-align: center; font-size: 18px; font-weight: bold; }
+            </style>
+            <div class="checkout-form">
+                <div class="resumen-compra">
+                    <h3 style="margin: 0 0 10px 0;">📋 Resumen de tu compra:</h3>
+                    <p style="margin: 5px 0;"><strong>Productos:</strong> ${productosEnCarrito.length}</p>
+                    <p style="margin: 5px 0;"><strong>Total:</strong> ${totalCarrito.toLocaleString()}</p>
+                </div>
+                
+                <form id="checkout-form">
+                    <div class="form-group">
+                        <label for="nombre">📝 Nombre Completo *</label>
+                        <input type="text" id="nombre" class="form-input" placeholder="Ej: Juan Pérez" value="Juan Pérez" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">📧 Email *</label>
+                        <input type="email" id="email" class="form-input" placeholder="Ej: juan@email.com" value="juan@email.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="telefono">📱 Teléfono *</label>
+                        <input type="tel" id="telefono" class="form-input" placeholder="Ej: +54 9 11 1234-5678" value="+54 9 11 1234-5678" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="direccion">🏠 Dirección *</label>
+                        <input type="text" id="direccion" class="form-input" placeholder="Ej: Av. Ejemplo 123" value="Av. Ejemplo 123" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="ciudad">🏙️ Ciudad *</label>
+                        <input type="text" id="ciudad" class="form-input" placeholder="Ej: Buenos Aires" value="Buenos Aires" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="codigoPostal">📮 Código Postal *</label>
+                        <input type="text" id="codigoPostal" class="form-input" placeholder="Ej: 1234" value="1234" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>💳 Método de Pago *</label>
+                        <div class="payment-options">
+                            <label class="payment-option">
+                                <input type="radio" name="metodoPago" value="efectivo" checked>
+                                <span class="payment-icon">💵</span>
+                                <strong>Efectivo (10% descuento)</strong>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="metodoPago" value="tarjeta">
+                                <span class="payment-icon">💳</span>
+                                <strong>Tarjeta de Crédito/Débito</strong>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="metodoPago" value="transferencia">
+                                <span class="payment-icon">🏦</span>
+                                <strong>Transferencia Bancaria</strong>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="total-section">
+                        💰 Total a Pagar: ${totalCarrito.toLocaleString()}
+                    </div>
+                </form>
+            </div>
         `,
+        width: '600px',
         showCancelButton: true,
-        confirmButtonText: 'Confirmar Compra',
+        confirmButtonText: '✅ Confirmar Compra',
+        cancelButtonText: '❌ Cancelar',
         preConfirm: () => {
             const nombre = document.getElementById('nombre').value;
             const email = document.getElementById('email').value;
             const telefono = document.getElementById('telefono').value;
-            const metodoPago = document.getElementById('pago').value;
+            const direccion = document.getElementById('direccion').value;
+            const ciudad = document.getElementById('ciudad').value;
+            const codigoPostal = document.getElementById('codigoPostal').value;
+            const metodoPago = document.querySelector('input[name="metodoPago"]:checked').value;
             
-            if (!nombre || !email || !telefono) {
-                Swal.showValidationMessage('Por favor completa todos los campos');
+            if (!nombre || !email || !telefono || !direccion || !ciudad || !codigoPostal) {
+                Swal.showValidationMessage('Por favor completa todos los campos obligatorios');
                 return false;
             }
             
-            return { nombre, email, telefono, metodoPago };
+            return { nombre, email, telefono, direccion, ciudad, codigoPostal, metodoPago };
         }
     }).then((result) => {
         if (result.isConfirmed) {
@@ -198,14 +272,30 @@ function procesarCompra(datosCompra) {
     actualizarContadorCarrito();
     
     Swal.fire({
-        title: '¡Compra Exitosa!',
+        title: '🎉 ¡Compra Exitosa!',
         html: `
-            <p>Gracias ${datosCompra.nombre}</p>
-            <p>Total pagado: $${totalFinal.toLocaleString()}</p>
-            <p>Método de pago: ${datosCompra.metodoPago}</p>
-            ${datosCompra.metodoPago === 'efectivo' ? '<p style="color: green;">✓ Descuento del 10% aplicado</p>' : ''}
+            <div style="text-align: center; padding: 20px;">
+                <h3>✅ Pedido Confirmado</h3>
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                    <p><strong>Cliente:</strong> ${datosCompra.nombre}</p>
+                    <p><strong>Email:</strong> ${datosCompra.email}</p>
+                    <p><strong>Teléfono:</strong> ${datosCompra.telefono}</p>
+                    <p><strong>Dirección:</strong> ${datosCompra.direccion}</p>
+                    <p><strong>Ciudad:</strong> ${datosCompra.ciudad} (${datosCompra.codigoPostal})</p>
+                </div>
+                <div style="background: #87c3bd; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                    <p><strong>💰 Total pagado:</strong> ${totalFinal.toLocaleString()}</p>
+                    <p><strong>💳 Método de pago:</strong> ${datosCompra.metodoPago}</p>
+                    ${datosCompra.metodoPago === 'efectivo' ? '<p style="color: #28a745; font-weight: bold;">✓ Descuento del 10% aplicado</p>' : ''}
+                </div>
+                <p style="color: #6c757d; font-size: 14px;">
+                    📧 Recibirás un email de confirmación en breve<br>
+                    📦 Tu pedido será procesado en las próximas 24hs
+                </p>
+            </div>
         `,
-        icon: 'success'
+        icon: 'success',
+        confirmButtonText: '🏠 Volver al Inicio'
     });
 }
 
