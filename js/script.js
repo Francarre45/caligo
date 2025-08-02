@@ -1,4 +1,4 @@
-const NOMBRE_TIENDA = "CALIGO";
+function clasificarCliente(cantidadCompras) {const NOMBRE_TIENDA = "CALIGO";
 const DESCUENTO_EFECTIVO = 10;
 const NUMERO_WHATSAPP = "1234567890";
 
@@ -111,27 +111,40 @@ function mostrarResumenCarrito() {
     let resumen = `<div class="carrito-resumen">`;
     resumen += `<h3>Resumen del Carrito</h3>`;
     
-    productosEnCarrito.forEach(producto => {
+    productosEnCarrito.forEach((producto, index) => {
         resumen += `
-            <div style="display: flex; justify-content: space-between; margin: 10px 0;">
-                <span>${producto.nombre} (x${producto.cantidad})</span>
-                <span>$${(producto.precio * producto.cantidad).toLocaleString()}</span>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin: 10px 0; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                <div>
+                    <span>${producto.nombre}</span><br>
+                    <small>Cantidad: ${producto.cantidad} | Precio: ${producto.precio.toLocaleString()}</small>
+                </div>
+                <div style="display: flex; gap: 5px; align-items: center;">
+                    <span style="font-weight: bold;">${(producto.precio * producto.cantidad).toLocaleString()}</span>
+                    <button onclick="eliminarProducto(${producto.id})" style="background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; margin-left: 10px;">
+                        🗑️
+                    </button>
+                </div>
             </div>
         `;
     });
     
-    resumen += `<hr><strong>Total: $${totalCarrito.toLocaleString()}</strong>`;
+    resumen += `<hr><strong>Total: ${totalCarrito.toLocaleString()}</strong>`;
     resumen += `</div>`;
     
     Swal.fire({
         title: 'Tu Carrito',
         html: resumen,
         showCancelButton: true,
+        showDenyButton: true,
         confirmButtonText: 'Finalizar Compra',
-        cancelButtonText: 'Seguir Comprando'
+        cancelButtonText: 'Seguir Comprando',
+        denyButtonText: '🗑️ Vaciar Carrito',
+        denyButtonColor: '#dc3545'
     }).then((result) => {
         if (result.isConfirmed) {
             mostrarFormularioCompra();
+        } else if (result.isDenied) {
+            vaciarCarrito();
         }
     });
 }
@@ -324,7 +337,56 @@ function aplicarDescuentosAutomaticos() {
     });
 }
 
-function clasificarCliente(cantidadCompras) {
+function eliminarProducto(id) {
+    productosEnCarrito = productosEnCarrito.filter(producto => producto.id !== id);
+    
+    cantidadProductosCarrito = productosEnCarrito.reduce((total, producto) => total + producto.cantidad, 0);
+    totalCarrito = productosEnCarrito.reduce((total, producto) => total + (producto.precio * producto.cantidad), 0);
+    
+    localStorage.setItem('carrito', JSON.stringify(productosEnCarrito));
+    actualizarContadorCarrito();
+    
+    Swal.fire({
+        title: 'Producto eliminado',
+        text: 'El producto se eliminó del carrito',
+        icon: 'success',
+        timer: 1500,
+        showConfirmButton: false
+    }).then(() => {
+        mostrarResumenCarrito();
+    });
+}
+
+function vaciarCarrito() {
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: 'Se eliminarán todos los productos del carrito',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dc3545',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Sí, vaciar carrito',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            productosEnCarrito = [];
+            cantidadProductosCarrito = 0;
+            totalCarrito = 0;
+            localStorage.removeItem('carrito');
+            actualizarContadorCarrito();
+            
+            Swal.fire({
+                title: 'Carrito vaciado',
+                text: 'Todos los productos fueron eliminados',
+                icon: 'success',
+                timer: 1500,
+                showConfirmButton: false
+            });
+        } else {
+            mostrarResumenCarrito();
+        }
+    });
+}
     let tipoCliente = "";
     
     if (cantidadCompras >= 10) {
