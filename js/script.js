@@ -341,10 +341,29 @@ function clasificarCliente(cantidadCompras) {
 }
 
 function actualizarContadorCarrito() {
+    // Actualizar el contador del botón carrito flotante
     const contador = document.getElementById('contador-carrito');
     if (contador) {
         contador.textContent = cantidadProductosCarrito;
     }
+    
+    // Actualizar el contador del botón carrito principal (arriba)
+    const contadorPrincipal = document.querySelector('.btn-carrito .contador');
+    if (contadorPrincipal) {
+        contadorPrincipal.textContent = cantidadProductosCarrito;
+    }
+    
+    // Buscar cualquier botón que contenga "Carrito" y actualizar su contador
+    const botones = document.querySelectorAll('button, .btn, a');
+    botones.forEach(boton => {
+        if (boton.textContent && boton.textContent.includes('Carrito')) {
+            // Actualizar el texto completo del botón manteniendo el formato
+            boton.innerHTML = boton.innerHTML.replace(/\(\d+\)/, `(${cantidadProductosCarrito})`);
+        }
+    });
+    
+    // También actualizar el título de la página
+    document.title = `CALIGO - Carrito (${cantidadProductosCarrito})`;
 }
 
 function crearBotonCarrito() {
