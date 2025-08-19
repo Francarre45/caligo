@@ -1,148 +1,94 @@
-const NOMBRE_TIENDA = "CALIGO";
-const DESCUENTO_EFECTIVO = 10;
-const NUMERO_WHATSAPP = "1234567890";
+let estadoCarrito = {
+    productos: [],
+    total: 0
+};
 
-let cantidadProductosCarrito = 0;
-let totalCarrito = 0;
-let nombreUsuario = "";
-let productosData = [];
+let datosUsuario = {
+    nombre: "",
+    email: ""
+};
 
-const categoriasProductos = ["Equipajes", "Accesorios", "Mochilas", "Carry-on"];
-let productosEnCarrito = JSON.parse(localStorage.getItem('carrito')) || [];
-
-async function cargarProductos() {
-    try {
-        const response = await fetch(window.location.pathname.includes('/pages/') ? '../products.json' : './products.json');
-        const data = await response.json();
-        productosData = [...data.equipajes, ...data.accesorios];
-        renderizarProductos();
-        actualizarContadorCarrito();
-    } catch (error) {
-        Swal.fire('Error', 'No se pudieron cargar los productos', 'error');
-    }
-}
-
-function renderizarProductos() {
-    const contenedorEquipajes = document.querySelector('.productos-seccion .card1');
-    const contenedorAccesorios = document.querySelector('.productos-seccion .card1');
-    
-    if (contenedorEquipajes) {
-        const equipajes = productosData.filter(p => p.categoria === 'equipajes' || p.categoria === 'carry-on' || p.categoria === 'mochilas');
-        contenedorEquipajes.innerHTML = '';
-        
-        equipajes.forEach(producto => {
-            const productElement = crearElementoProducto(producto);
-            contenedorEquipajes.appendChild(productElement);
-        });
-    }
-    
-    if (contenedorAccesorios && window.location.pathname.includes('accesorios')) {
-        const accesorios = productosData.filter(p => !['equipajes', 'carry-on', 'mochilas'].includes(p.categoria));
-        contenedorAccesorios.innerHTML = '';
-        
-        accesorios.forEach(producto => {
-            const productElement = crearElementoProducto(producto);
-            contenedorAccesorios.appendChild(productElement);
-        });
-    }
-}
-
-function crearElementoProducto(producto) {
-    const article = document.createElement('article');
-    article.className = 'todos-equipajes';
-    
-    article.innerHTML = `
-        <img src="${producto.imagen}" alt="${producto.nombre}">
-        <div>
-            <p>${producto.nombre}</p>
-            <p><strong>Precio:</strong> $${producto.precio.toLocaleString()}</p>
-            <button type="button" onclick="agregarProductoAlCarrito('${producto.nombre}', ${producto.precio}, ${producto.id})">
-                Añadir al carrito
-            </button>
-        </div>
-    `;
-    
-    return article;
-}
-
-function agregarProductoAlCarrito(nombreProducto, precio, id) {
-    const productoExistente = productosEnCarrito.find(p => p.id === id);
-    
-    if (productoExistente) {
-        productoExistente.cantidad += 1;
-    } else {
-        productosEnCarrito.push({
-            id: id,
-            nombre: nombreProducto,
-            precio: precio,
-            cantidad: 1
-        });
-    }
-    
-    cantidadProductosCarrito = productosEnCarrito.reduce((total, producto) => total + producto.cantidad, 0);
-    totalCarrito = productosEnCarrito.reduce((total, producto) => total + (producto.precio * producto.cantidad), 0);
-    
-    localStorage.setItem('carrito', JSON.stringify(productosEnCarrito));
-    actualizarContadorCarrito();
-    
-    Swal.fire({
-        title: '¡Producto agregado!',
-        text: `${nombreProducto} se agregó al carrito`,
-        icon: 'success',
-        timer: 2000,
-        showConfirmButton: false
+function agregarProductoAlCarrito(nombre, precio) {
+    estadoCarrito.productos.push({ 
+        id: Date.now(),
+        nombre: nombre, 
+        precio: precio 
     });
+    estadoCarrito.total += precio;
     
-    return `¡${nombreProducto} agregado al carrito!`;
+    guardarEnStorage();
+    mostrarNotificacionAgregado(nombre);
+    actualizarContadorVisual();
 }
 
-function calcularDescuento(precio) {
-    const descuento = precio * (DESCUENTO_EFECTIVO / 100);
-    const precioFinal = precio - descuento;
-    return precioFinal;
+function mostrarNotificacionAgregado(nombre) {
+    Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'success',
+        title: `${nombre} agregado`,
+        showConfirmButton: false,
+        timer: 1500
+    });
 }
 
-function mostrarResumenCarrito() {
-    if (productosEnCarrito.length === 0) {
-        Swal.fire('Carrito vacío', 'No hay productos en el carrito', 'info');
+function actualizarContadorVisual() {
+    let contador = document.getElementById('contador-carrito');
+    
+    if (!contador) {
+        contador = document.createElement('div');
+        contador.id = 'contador-carrito';
+        contador.className = 'contador-carrito';
+        contador.addEventListener('click', mostrarCarritoCompleto);
+        document.body.appendChild(contador);
+    }
+    
+    const cantidad = estadoCarrito.productos.length;
+    contador.textContent = `🛒 ${cantidad}`;
+    contador.style.display = cantidad > 0 ? 'block' : 'none';
+}
+
+function mostrarCarritoCompleto() {
+    if (estadoCarrito.productos.length === 0) {
+        Swal.fire({
+            title: 'Carrito vacío',
+            text: 'Agrega productos para continuar',
+            icon: 'info'
+        });
         return;
     }
     
-    let resumen = `<div class="carrito-resumen">`;
-    resumen += `<h3>Resumen del Carrito</h3>`;
-    
-    productosEnCarrito.forEach((producto, index) => {
-        resumen += `
-            <div style="display: flex; justify-content: space-between; align-items: center; margin: 10px 0; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
-                <div>
-                    <span>${producto.nombre}</span><br>
-                    <small>Cantidad: ${producto.cantidad} | Precio: $${producto.precio.toLocaleString()}</small>
-                </div>
-                <div style="display: flex; gap: 5px; align-items: center;">
-                    <span style="font-weight: bold;">$${(producto.precio * producto.cantidad).toLocaleString()}</span>
-                    <button onclick="eliminarProducto(${producto.id})" style="background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; margin-left: 10px;">
-                        🗑️
-                    </button>
-                </div>
+    let productosHTML = '';
+    estadoCarrito.productos.forEach(producto => {
+        productosHTML += `
+            <div class="item-carrito">
+                <span>${producto.nombre}</span>
+                <span>$${producto.precio.toLocaleString()}</span>
+                <button onclick="eliminarProducto(${producto.id})" class="btn-eliminar">🗑️</button>
             </div>
         `;
     });
     
-    resumen += `<hr><strong>Total: $${totalCarrito.toLocaleString()}</strong>`;
-    resumen += `</div>`;
-    
     Swal.fire({
-        title: 'Tu Carrito',
-        html: resumen,
+        title: `🛒 Carrito (${estadoCarrito.productos.length} productos)`,
+        html: `
+            <div class="carrito-contenido">
+                ${productosHTML}
+                <div class="total-carrito">
+                    <strong>Total: $${estadoCarrito.total.toLocaleString()}</strong>
+                </div>
+            </div>
+        `,
         showCancelButton: true,
         showDenyButton: true,
-        confirmButtonText: 'Finalizar Compra',
-        cancelButtonText: 'Seguir Comprando',
-        denyButtonText: '🗑️ Vaciar Carrito',
+        confirmButtonText: 'Comprar',
+        cancelButtonText: 'Seguir comprando',
+        denyButtonText: 'Vaciar carrito',
+        confirmButtonColor: '#28a745',
         denyButtonColor: '#dc3545'
     }).then((result) => {
         if (result.isConfirmed) {
-            mostrarFormularioCompra();
+            procesarCompra();
         } else if (result.isDenied) {
             vaciarCarrito();
         }
@@ -150,418 +96,430 @@ function mostrarResumenCarrito() {
 }
 
 function eliminarProducto(id) {
-    productosEnCarrito = productosEnCarrito.filter(producto => producto.id !== id);
-    
-    cantidadProductosCarrito = productosEnCarrito.reduce((total, producto) => total + producto.cantidad, 0);
-    totalCarrito = productosEnCarrito.reduce((total, producto) => total + (producto.precio * producto.cantidad), 0);
-    
-    localStorage.setItem('carrito', JSON.stringify(productosEnCarrito));
-    actualizarContadorCarrito();
-    
-    Swal.fire({
-        title: 'Producto eliminado',
-        text: 'El producto se eliminó del carrito',
-        icon: 'success',
-        timer: 1500,
-        showConfirmButton: false
-    }).then(() => {
-        mostrarResumenCarrito();
-    });
+    const producto = estadoCarrito.productos.find(p => p.id === id);
+    if (producto) {
+        estadoCarrito.productos = estadoCarrito.productos.filter(p => p.id !== id);
+        estadoCarrito.total -= producto.precio;
+        guardarEnStorage();
+        actualizarContadorVisual();
+        mostrarCarritoCompleto();
+    }
 }
 
 function vaciarCarrito() {
     Swal.fire({
-        title: '¿Estás seguro?',
-        text: 'Se eliminarán todos los productos del carrito',
+        title: '¿Vaciar carrito?',
+        text: 'Se eliminarán todos los productos',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#dc3545',
-        cancelButtonColor: '#6c757d',
-        confirmButtonText: 'Sí, vaciar carrito',
-        cancelButtonText: 'Cancelar'
+        confirmButtonText: 'Sí, vaciar',
+        confirmButtonColor: '#dc3545'
     }).then((result) => {
         if (result.isConfirmed) {
-            productosEnCarrito = [];
-            cantidadProductosCarrito = 0;
-            totalCarrito = 0;
-            localStorage.removeItem('carrito');
-            actualizarContadorCarrito();
-            
-            Swal.fire({
-                title: 'Carrito vaciado',
-                text: 'Todos los productos fueron eliminados',
-                icon: 'success',
-                timer: 1500,
-                showConfirmButton: false
-            });
-        } else {
-            mostrarResumenCarrito();
+            estadoCarrito = { productos: [], total: 0 };
+            guardarEnStorage();
+            actualizarContadorVisual();
+            Swal.fire('Carrito vaciado', '', 'success');
         }
     });
 }
 
-function mostrarFormularioCompra() {
+function procesarCompra() {
     Swal.fire({
-        title: '🛒 Finalizar Compra',
+        title: 'Datos de compra',
         html: `
-            <style>
-                .checkout-form { max-height: 400px; overflow-y: auto; padding: 10px; }
-                .form-group { margin-bottom: 15px; text-align: left; }
-                .form-group label { display: block; font-weight: bold; margin-bottom: 5px; color: #333; }
-                .form-input { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 14px; }
-                .form-input:focus { border-color: #28a745; outline: none; }
-                .resumen-compra { background: #87c3bd; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
-                .payment-options { display: grid; gap: 10px; margin-top: 10px; }
-                .payment-option { display: flex; align-items: center; padding: 12px; border: 2px solid #ddd; border-radius: 8px; cursor: pointer; transition: all 0.3s; }
-                .payment-option:hover { border-color: #28a745; background: #f8f9fa; }
-                .payment-option input[type="radio"] { margin-right: 10px; }
-                .payment-icon { font-size: 20px; margin-right: 8px; }
-                .total-section { background: #87c3bd; padding: 15px; border-radius: 8px; margin-top: 15px; text-align: center; font-size: 18px; font-weight: bold; }
-            </style>
-            <div class="checkout-form">
-                <div class="resumen-compra">
-                    <h3 style="margin: 0 0 10px 0;">📋 Resumen de tu compra:</h3>
-                    <p style="margin: 5px 0;"><strong>Productos:</strong> ${productosEnCarrito.length}</p>
-                    <p style="margin: 5px 0;"><strong>Total:</strong> $${totalCarrito.toLocaleString()}</p>
-                </div>
-                
-                <form id="checkout-form">
-                    <div class="form-group">
-                        <label for="nombre">📝 Nombre Completo *</label>
-                        <input type="text" id="nombre" class="form-input" placeholder="Ej: Juan Pérez" value="Juan Pérez" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="email">📧 Email *</label>
-                        <input type="email" id="email" class="form-input" placeholder="Ej: juan@email.com" value="juan@email.com" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="telefono">📱 Teléfono *</label>
-                        <input type="tel" id="telefono" class="form-input" placeholder="Ej: +54 9 11 1234-5678" value="+54 9 11 1234-5678" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="direccion">🏠 Dirección *</label>
-                        <input type="text" id="direccion" class="form-input" placeholder="Ej: Av. Ejemplo 123" value="Av. Ejemplo 123" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="ciudad">🏙️ Ciudad *</label>
-                        <input type="text" id="ciudad" class="form-input" placeholder="Ej: Buenos Aires" value="Buenos Aires" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="codigoPostal">📮 Código Postal *</label>
-                        <input type="text" id="codigoPostal" class="form-input" placeholder="Ej: 1234" value="1234" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>💳 Método de Pago *</label>
-                        <div class="payment-options">
-                            <label class="payment-option">
-                                <input type="radio" name="metodoPago" value="efectivo" checked>
-                                <span class="payment-icon">💵</span>
-                                <strong>Efectivo (10% descuento)</strong>
-                            </label>
-                            <label class="payment-option">
-                                <input type="radio" name="metodoPago" value="tarjeta">
-                                <span class="payment-icon">💳</span>
-                                <strong>Tarjeta de Crédito/Débito</strong>
-                            </label>
-                            <label class="payment-option">
-                                <input type="radio" name="metodoPago" value="transferencia">
-                                <span class="payment-icon">🏦</span>
-                                <strong>Transferencia Bancaria</strong>
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <div class="total-section">
-                        💰 Total a Pagar: $${totalCarrito.toLocaleString()}
-                    </div>
-                </form>
-            </div>
+            <input id="input-nombre" class="swal2-input" placeholder="Tu nombre" value="${datosUsuario.nombre}">
+            <input id="input-email" class="swal2-input" placeholder="Tu email" value="${datosUsuario.email}">
         `,
-        width: '600px',
-        showCancelButton: true,
-        confirmButtonText: '✅ Confirmar Compra',
-        cancelButtonText: '❌ Cancelar',
+        focusConfirm: false,
         preConfirm: () => {
-            const nombre = document.getElementById('nombre').value;
-            const email = document.getElementById('email').value;
-            const telefono = document.getElementById('telefono').value;
-            const direccion = document.getElementById('direccion').value;
-            const ciudad = document.getElementById('ciudad').value;
-            const codigoPostal = document.getElementById('codigoPostal').value;
-            const metodoPago = document.querySelector('input[name="metodoPago"]:checked').value;
+            const nombre = document.getElementById('input-nombre').value;
+            const email = document.getElementById('input-email').value;
             
-            if (!nombre || !email || !telefono || !direccion || !ciudad || !codigoPostal) {
-                Swal.showValidationMessage('Por favor completa todos los campos obligatorios');
+            if (!nombre || !email) {
+                Swal.showValidationMessage('Completa todos los campos');
                 return false;
             }
             
-            return { nombre, email, telefono, direccion, ciudad, codigoPostal, metodoPago };
+            return { nombre, email };
         }
     }).then((result) => {
         if (result.isConfirmed) {
-            procesarCompra(result.value);
+            datosUsuario = result.value;
+            elegirMetodoPago();
         }
     });
 }
 
-function procesarCompra(datosCompra) {
-    let totalFinal = totalCarrito;
-    
-    if (datosCompra.metodoPago === 'efectivo') {
-        totalFinal = totalCarrito - (totalCarrito * DESCUENTO_EFECTIVO / 100);
-    }
-    
-    const compra = {
-        fecha: new Date().toLocaleDateString(),
-        productos: [...productosEnCarrito],
-        cliente: datosCompra,
-        total: totalFinal,
-        metodoPago: datosCompra.metodoPago
-    };
-    
-    let historial = JSON.parse(localStorage.getItem('historialCompras')) || [];
-    historial.push(compra);
-    localStorage.setItem('historialCompras', JSON.stringify(historial));
-    
-    productosEnCarrito = [];
-    cantidadProductosCarrito = 0;
-    totalCarrito = 0;
-    localStorage.removeItem('carrito');
-    actualizarContadorCarrito();
+function elegirMetodoPago() {
+    const descuento = Math.round(estadoCarrito.total * 0.1);
+    const totalEfectivo = estadoCarrito.total - descuento;
     
     Swal.fire({
-        title: '🎉 ¡Compra Exitosa!',
+        title: 'Método de pago',
         html: `
-            <div style="text-align: center; padding: 20px;">
-                <h3>✅ Pedido Confirmado</h3>
-                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 15px 0;">
-                    <p><strong>Cliente:</strong> ${datosCompra.nombre}</p>
-                    <p><strong>Email:</strong> ${datosCompra.email}</p>
-                    <p><strong>Teléfono:</strong> ${datosCompra.telefono}</p>
-                    <p><strong>Dirección:</strong> ${datosCompra.direccion}</p>
-                    <p><strong>Ciudad:</strong> ${datosCompra.ciudad} (${datosCompra.codigoPostal})</p>
+            <div class="metodos-pago">
+                <div class="metodo" onclick="finalizarCompra('efectivo', ${totalEfectivo})">
+                    <h4>💵 Efectivo</h4>
+                    <p>10% descuento</p>
+                    <strong>$${totalEfectivo.toLocaleString()}</strong>
                 </div>
-                <div style="background: #87c3bd; padding: 15px; border-radius: 8px; margin: 15px 0;">
-                    <p><strong>💰 Total pagado:</strong> $${totalFinal.toLocaleString()}</p>
-                    <p><strong>💳 Método de pago:</strong> ${datosCompra.metodoPago}</p>
-                    ${datosCompra.metodoPago === 'efectivo' ? '<p style="color: #28a745; font-weight: bold;">✓ Descuento del 10% aplicado</p>' : ''}
+                <div class="metodo" onclick="finalizarCompra('tarjeta', ${estadoCarrito.total})">
+                    <h4>💳 Tarjeta</h4>
+                    <p>3 cuotas sin interés</p>
+                    <strong>$${estadoCarrito.total.toLocaleString()}</strong>
                 </div>
-                <p style="color: #6c757d; font-size: 14px;">
-                    📧 Recibirás un email de confirmación en breve<br>
-                    📦 Tu pedido será procesado en las próximas 24hs
-                </p>
+            </div>
+        `,
+        showConfirmButton: false,
+        showCancelButton: true,
+        cancelButtonText: 'Volver'
+    });
+}
+
+function finalizarCompra(metodo, total) {
+    const numeroOrden = 'CAL' + Date.now().toString().slice(-6);
+    
+    guardarOrden(numeroOrden, metodo, total);
+    
+    Swal.fire({
+        title: '🎉 ¡Compra exitosa!',
+        html: `
+            <div class="compra-exitosa">
+                <h3>Orden: ${numeroOrden}</h3>
+                <p>¡Gracias ${datosUsuario.nombre}!</p>
+                <h4>Total: $${total.toLocaleString()}</h4>
+                <a href="https://wa.me/1234567890?text=Mi orden es ${numeroOrden}" 
+                   target="_blank" class="btn-whatsapp">
+                   📱 WhatsApp
+                </a>
             </div>
         `,
         icon: 'success',
-        confirmButtonText: '🏠 Volver al Inicio'
-    });
-}
-
-function mostrarCategorias() {
-    const sidebar = document.querySelector('.menu-lateral ul');
-    if (sidebar) {
-        sidebar.innerHTML = '';
-        
-        const todasCategoria = document.createElement('li');
-        todasCategoria.innerHTML = '<a href="#todos">Todos los productos</a>';
-        sidebar.appendChild(todasCategoria);
-        
-        categoriasProductos.forEach(categoria => {
-            const li = document.createElement('li');
-            li.innerHTML = `<a href="#${categoria.toLowerCase()}">${categoria}</a>`;
-            sidebar.appendChild(li);
-        });
-    }
-}
-
-function aplicarDescuentosAutomaticos() {
-    productosData.forEach(producto => {
-        if (producto.precio > 70000) {
-            const precioConDescuento = calcularDescuento(producto.precio);
-        }
-    });
-}
-
-function clasificarCliente(cantidadCompras) {
-    let tipoCliente = "";
-    
-    if (cantidadCompras >= 10) {
-        tipoCliente = "Cliente VIP 🌟";
-    } else if (cantidadCompras >= 5) {
-        tipoCliente = "Cliente Frecuente 🎯";
-    } else if (cantidadCompras >= 1) {
-        tipoCliente = "Cliente Regular 😊";
-    } else {
-        tipoCliente = "Cliente Nuevo 👋";
-    }
-    
-    return tipoCliente;
-}
-
-function actualizarTodosLosContadores() {
-    // Actualizar todos los contadores en la página
-    const elementos = document.querySelectorAll('*');
-    elementos.forEach(elemento => {
-        if (elemento.textContent && elemento.textContent.includes('Carrito (')) {
-            elemento.innerHTML = elemento.innerHTML.replace(/Carrito \(\d+\)/, `Carrito (${cantidadProductosCarrito})`);
-        }
-    });
-}
-
-function actualizarContadorCarrito() {
-    // Actualizar el contador del botón carrito flotante
-    const contador = document.getElementById('contador-carrito');
-    if (contador) {
-        contador.textContent = cantidadProductosCarrito;
-    }
-    
-    // Actualizar TODOS los contadores de carrito en la página
-    actualizarTodosLosContadores();
-    
-    // También actualizar el título de la página
-    document.title = `CALIGO - Carrito (${cantidadProductosCarrito})`;
-}
-
-function crearBotonCarrito() {
-    const botonCarrito = document.createElement('button');
-    botonCarrito.innerHTML = '🛒 Carrito (<span id="contador-carrito">0</span>)';
-    botonCarrito.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: #007bff;
-        color: white;
-        border: none;
-        padding: 15px 20px;
-        border-radius: 25px;
-        cursor: pointer;
-        font-weight: bold;
-        z-index: 1000;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    `;
-    
-    botonCarrito.addEventListener('click', mostrarResumenCarrito);
-    document.body.appendChild(botonCarrito);
-}
-
-function iniciarProcesoCompra() {
-    Swal.fire({
-        title: '¡Bienvenido a CALIGO!',
-        text: '¿Cuál es tu nombre?',
-        input: 'text',
-        inputValue: 'Cliente',
-        showCancelButton: true,
         confirmButtonText: 'Continuar'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            nombreUsuario = result.value || "Cliente";
-            
-            Swal.fire({
-                title: `¡Hola ${nombreUsuario}!`,
-                text: `Bienvenido a ${NOMBRE_TIENDA}. ✈️ Tu próxima aventura comienza aquí`,
-                icon: 'success',
-                confirmButtonText: 'Ver productos'
-            }).then(() => {
-                mostrarProductosDestacados();
+    }).then(() => {
+        estadoCarrito = { productos: [], total: 0 };
+        guardarEnStorage();
+        actualizarContadorVisual();
+    });
+}
+
+function guardarOrden(numero, metodo, total) {
+    const orden = {
+        numero: numero,
+        fecha: new Date().toISOString(),
+        cliente: datosUsuario,
+        productos: [...estadoCarrito.productos],
+        metodoPago: metodo,
+        total: total
+    };
+    
+    const ordenes = JSON.parse(localStorage.getItem('ordenes') || '[]');
+    ordenes.push(orden);
+    localStorage.setItem('ordenes', JSON.stringify(ordenes));
+}
+
+function guardarEnStorage() {
+    localStorage.setItem('carrito', JSON.stringify(estadoCarrito));
+}
+
+function cargarDeStorage() {
+    const carritoGuardado = localStorage.getItem('carrito');
+    if (carritoGuardado) {
+        estadoCarrito = JSON.parse(carritoGuardado);
+        actualizarContadorVisual();
+    }
+}
+
+function conectarBotonesProductos() {
+    const botones = document.querySelectorAll('button[type="button"]');
+    
+    botones.forEach(boton => {
+        if (boton.textContent.includes('Añadir al carrito')) {
+            boton.addEventListener('click', function() {
+                const articulo = this.closest('article');
+                const nombre = articulo.querySelector('p').textContent;
+                
+                const precioTexto = articulo.innerHTML;
+                const precioMatch = precioTexto.match(/\$([0-9.,]+)/);
+                const precio = precioMatch ? 
+                    parseInt(precioMatch[1].replace(/[.,]/g, '')) : 
+                    50000;
+                
+                agregarProductoAlCarrito(nombre, precio);
+                
+                this.style.backgroundColor = '#28a745';
+                this.style.color = 'white';
+                this.textContent = '¡Agregado!';
+                
+                setTimeout(() => {
+                    this.style.backgroundColor = '';
+                    this.style.color = '';
+                    this.textContent = 'Añadir al carrito';
+                }, 2000);
             });
         }
     });
+}
+
+function configurarFiltrosMenu() {
+    const menuLateral = document.querySelector('.menu-lateral');
+    if (!menuLateral) return;
+    
+    const enlaces = menuLateral.querySelectorAll('a');
+    
+    enlaces.forEach(enlace => {
+        enlace.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const categoria = this.getAttribute('href').replace('#', '');
+            aplicarFiltroCategoria(categoria);
+            
+            enlaces.forEach(e => e.classList.remove('filtro-activo'));
+            this.classList.add('filtro-activo');
+        });
+    });
+}
+
+function aplicarFiltroCategoria(categoria) {
+    const productos = document.querySelectorAll('.todos-equipajes');
+    
+    productos.forEach(producto => {
+        const nombre = producto.querySelector('p').textContent.toLowerCase();
+        let mostrar = false;
+        
+        switch(categoria) {
+            case 'todos-equipajes':
+            case 'todos-losaccesorios':
+                mostrar = true;
+                break;
+            case 'equipajes':
+                mostrar = nombre.includes('valija') && 
+                         !nombre.includes('carry') && 
+                         !nombre.includes('mochila');
+                break;
+            case 'carry-on':
+                mostrar = nombre.includes('carry');
+                break;
+            case 'mochilas':
+                mostrar = nombre.includes('mochila');
+                break;
+            case 'agenda':
+                mostrar = nombre.includes('agenda');
+                break;
+            case 'botellas':
+                mostrar = nombre.includes('botella');
+                break;
+            case 'candados':
+                mostrar = nombre.includes('candado');
+                break;
+            case 'riñonera':
+                mostrar = nombre.includes('riñonera');
+                break;
+            case 'neceser':
+                mostrar = nombre.includes('neceser');
+                break;
+            case 'perfumeros':
+                mostrar = nombre.includes('perfumero');
+                break;
+        }
+        
+        producto.style.display = mostrar ? 'block' : 'none';
+    });
+}
+
+function crearBotonCompraRapida() {
+    const boton = document.createElement('button');
+    boton.innerHTML = '🛒 Compra Rápida';
+    boton.className = 'boton-compra-rapida';
+    boton.addEventListener('click', mostrarProductosDestacados);
+    document.body.appendChild(boton);
 }
 
 function mostrarProductosDestacados() {
-    const productosDestacados = productosData.slice(0, 3);
-    let opciones = '';
+    const productos = [
+        { nombre: "Valija Amayra Gris", precio: 89990 },
+        { nombre: "Carry-on Tourister Negro", precio: 65990 },
+        { nombre: "Mochila Discovery Negra", precio: 42990 }
+    ];
     
-    productosDestacados.forEach((producto, index) => {
-        opciones += `${index + 1}. ${producto.nombre} ($${producto.precio.toLocaleString()})\n`;
+    let productosHTML = '';
+    productos.forEach((producto, index) => {
+        productosHTML += `
+            <div class="producto-destacado" onclick="agregarDestacado('${producto.nombre}', ${producto.precio})">
+                <h4>${producto.nombre}</h4>
+                <p>$${producto.precio.toLocaleString()}</p>
+                <button>Agregar</button>
+            </div>
+        `;
     });
     
     Swal.fire({
-        title: 'Productos Destacados',
-        text: opciones,
-        input: 'select',
-        inputOptions: {
-            '0': productosDestacados[0]?.nombre,
-            '1': productosDestacados[1]?.nombre,
-            '2': productosDestacados[2]?.nombre
-        },
-        showCancelButton: true,
-        confirmButtonText: 'Agregar al carrito'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            const productoSeleccionado = productosDestacados[parseInt(result.value)];
-            if (productoSeleccionado) {
-                procesarEleccionProducto(productoSeleccionado);
-            }
-        }
+        title: '🌟 Productos Destacados',
+        html: `<div class="productos-destacados">${productosHTML}</div>`,
+        showConfirmButton: false,
+        showCloseButton: true
     });
 }
 
-function procesarEleccionProducto(producto) {
-    agregarProductoAlCarrito(producto.nombre, producto.precio, producto.id);
-    
-    Swal.fire({
-        title: '¿Método de pago?',
-        text: `¿Vas a pagar en efectivo? (Obtén ${DESCUENTO_EFECTIVO}% de descuento)`,
-        showCancelButton: true,
-        confirmButtonText: 'Efectivo',
-        cancelButtonText: 'Tarjeta'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            const precioConDescuento = calcularDescuento(producto.precio);
-            Swal.fire({
-                title: '¡Excelente!',
-                text: `Con el descuento pagarías $${precioConDescuento.toLocaleString()} en lugar de $${producto.precio.toLocaleString()}`,
-                icon: 'success'
-            });
-        } else {
-            Swal.fire({
-                title: 'Perfecto!',
-                text: `El total es $${producto.precio.toLocaleString()}. Puedes pagar con tarjeta en 3 cuotas sin interés.`,
-                icon: 'success'
-            });
+function agregarDestacado(nombre, precio) {
+    agregarProductoAlCarrito(nombre, precio);
+    Swal.close();
+}
+
+function inicializarSweetAlert() {
+    if (typeof Swal === 'undefined') {
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.10.1/sweetalert2.min.js';
+        document.head.appendChild(script);
+        
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.10.1/sweetalert2.min.css';
+        document.head.appendChild(link);
+    }
+}
+
+function aplicarEstilosCSS() {
+    const estilos = document.createElement('style');
+    estilos.textContent = `
+        .contador-carrito {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #e74c3c;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            z-index: 1000;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            animation: pulse 2s infinite;
         }
         
-        setTimeout(() => {
-            mostrarResumenCarrito();
-        }, 2000);
-    });
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .boton-compra-rapida {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        
+        .menu-lateral a.filtro-activo {
+            background-color: #007bff !important;
+            color: white !important;
+            font-weight: bold;
+            transform: translateX(5px);
+            box-shadow: 0 2px 8px rgba(0,123,255,0.3);
+        }
+        
+        .menu-lateral a {
+            transition: all 0.3s ease;
+        }
+        
+        .item-carrito {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .btn-eliminar {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        
+        .total-carrito {
+            text-align: center;
+            padding: 15px;
+            font-size: 1.2em;
+            border-top: 2px solid #007bff;
+            margin-top: 10px;
+        }
+        
+        .metodos-pago {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+        
+        .metodo {
+            border: 2px solid #ddd;
+            padding: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .metodo:hover {
+            border-color: #007bff;
+            background: #f8f9fa;
+        }
+        
+        .productos-destacados {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        
+        .producto-destacado {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+        }
+        
+        .producto-destacado:hover {
+            border-color: #007bff;
+            background: #f8f9fa;
+        }
+        
+        .btn-whatsapp {
+            display: inline-block;
+            background: #25d366;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 20px;
+            margin-top: 10px;
+        }
+        
+        .compra-exitosa {
+            text-align: center;
+        }
+    `;
+    document.head.appendChild(estilos);
 }
 
-document.addEventListener('DOMContentLoaded', async function() {
-    // ===== CORRECCIÓN: Recalcular contadores desde localStorage al cargar cada página =====
-    cantidadProductosCarrito = productosEnCarrito.reduce((total, producto) => total + producto.cantidad, 0);
-    totalCarrito = productosEnCarrito.reduce((total, producto) => total + (producto.precio * producto.cantidad), 0);
-    // =====================================================================================
-    
-    await cargarProductos();
-    mostrarCategorias();
-    aplicarDescuentosAutomaticos();
-    crearBotonCarrito();
-    
-    const botonInteractivo = document.createElement('button');
-    botonInteractivo.textContent = '🛒 Compra Interactiva';
-    botonInteractivo.style.cssText = `
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background: #28a745;
-        color: white;
-        border: none;
-        padding: 15px 20px;
-        border-radius: 25px;
-        cursor: pointer;
-        font-weight: bold;
-        z-index: 1000;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    `;
-    
-    botonInteractivo.addEventListener('click', iniciarProcesoCompra);
-    document.body.appendChild(botonInteractivo);
+document.addEventListener('DOMContentLoaded', function() {
+    inicializarSweetAlert();
+    aplicarEstilosCSS();
+    cargarDeStorage();
+    conectarBotonesProductos();
+    configurarFiltrosMenu();
+    crearBotonCompraRapida();
 });
+
+window.eliminarProducto = eliminarProducto;
+window.finalizarCompra = finalizarCompra;
+window.agregarDestacado = agregarDestacado;
