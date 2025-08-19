@@ -5,22 +5,28 @@ const NUMERO_WHATSAPP = "1234567890";
 let cantidadProductosCarrito = 0;
 let totalCarrito = 0;
 let nombreUsuario = "";
-let productosData = [];
 
 const categoriasProductos = ["Equipajes", "Accesorios", "Mochilas", "Carry-on"];
 let productosEnCarrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
-async function cargarProductos() {
-    try {
-        const response = await fetch(window.location.pathname.includes('/pages/') ? '../products.json' : './products.json');
-        const data = await response.json();
-        productosData = [...data.equipajes, ...data.accesorios];
-        renderizarProductos();
-        actualizarContadorCarrito();
-    } catch (error) {
-        Swal.fire('Error', 'No se pudieron cargar los productos', 'error');
+function obtenerRutaImagen(nombreImagen) {
+    if (window.location.pathname.includes('/pages/')) {
+        return `../assest/img/${nombreImagen}`;
+    } else {
+        return `./assest/img/${nombreImagen}`;
     }
 }
+
+const productosData = [
+    { id: 1, nombre: "Valija Amayra Gris", categoria: "equipajes", precio: 89990, imagen: "Valija Amayra Gris.webp" },
+    { id: 2, nombre: "Carry on Tourister Negro", categoria: "carry-on", precio: 65990, imagen: "Carry on Tourister Negro.webp" },
+    { id: 3, nombre: "Valija Discovery Celeste", categoria: "equipajes", precio: 75990, imagen: "Valija Discovery Celeste.webp" },
+    { id: 4, nombre: "Mochila Discovery Negra", categoria: "mochilas", precio: 42990, imagen: "Mochi Discovery Negra.webp" },
+    { id: 5, nombre: "Agenda Mooving Negra", categoria: "accesorios", precio: 15990, imagen: "AGENDA MOOVING DIARIA NEGRA .jpg" },
+    { id: 6, nombre: "Botella Contigo Celeste", categoria: "accesorios", precio: 25990, imagen: "Botella Contigo Celeste.webp" },
+    { id: 7, nombre: "Candado TSA Azul", categoria: "accesorios", precio: 8990, imagen: "Candado TSA azul.webp" },
+    { id: 8, nombre: "Riñonera Chimola Gris", categoria: "accesorios", precio: 22990, imagen: "RIÑONERA CHIMOLA GRIS.webp" }
+];
 
 function renderizarProductos() {
     const contenedorEquipajes = document.querySelector('.productos-seccion .card1');
@@ -51,8 +57,10 @@ function crearElementoProducto(producto) {
     const article = document.createElement('article');
     article.className = 'todos-equipajes';
     
+    const rutaImagen = obtenerRutaImagen(producto.imagen);
+    
     article.innerHTML = `
-        <img src="${producto.imagen}" alt="${producto.nombre}">
+        <img src="${rutaImagen}" alt="${producto.nombre}">
         <div>
             <p>${producto.nombre}</p>
             <p><strong>Precio:</strong> $${producto.precio.toLocaleString()}</p>
@@ -405,7 +413,6 @@ function clasificarCliente(cantidadCompras) {
 }
 
 function actualizarTodosLosContadores() {
-    // Actualizar todos los contadores en la página
     const elementos = document.querySelectorAll('*');
     elementos.forEach(elemento => {
         if (elemento.textContent && elemento.textContent.includes('Carrito (')) {
@@ -415,16 +422,13 @@ function actualizarTodosLosContadores() {
 }
 
 function actualizarContadorCarrito() {
-    // Actualizar el contador del botón carrito flotante
     const contador = document.getElementById('contador-carrito');
     if (contador) {
         contador.textContent = cantidadProductosCarrito;
     }
     
-    // Actualizar TODOS los contadores de carrito en la página
     actualizarTodosLosContadores();
     
-    // También actualizar el título de la página
     document.title = `CALIGO - Carrito (${cantidadProductosCarrito})`;
 }
 
@@ -534,13 +538,11 @@ function procesarEleccionProducto(producto) {
     });
 }
 
-document.addEventListener('DOMContentLoaded', async function() {
-    // ===== CORRECCIÓN: Recalcular contadores desde localStorage al cargar cada página =====
+document.addEventListener('DOMContentLoaded', function() {
     cantidadProductosCarrito = productosEnCarrito.reduce((total, producto) => total + producto.cantidad, 0);
     totalCarrito = productosEnCarrito.reduce((total, producto) => total + (producto.precio * producto.cantidad), 0);
-    // =====================================================================================
     
-    await cargarProductos();
+    renderizarProductos();
     mostrarCategorias();
     aplicarDescuentosAutomaticos();
     crearBotonCarrito();
