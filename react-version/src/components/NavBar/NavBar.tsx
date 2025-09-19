@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import CartWidget from '../CartWidget/CartWidget';
 
 const NavBar = () => {
@@ -10,8 +11,7 @@ const NavBar = () => {
       justifyContent: 'space-between',
       alignItems: 'center',
       padding: '0 30px',
-      flexWrap: 'wrap',
-      boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+      flexWrap: 'wrap'
     }}>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <img 
@@ -19,14 +19,9 @@ const NavBar = () => {
           alt="logo CALIGO" 
           style={{ width: '60px', height: '60px', marginRight: '15px' }}
         />
-        <h1 style={{ 
-          margin: 0, 
-          fontFamily: 'Inconsolata, monospace',
-          fontSize: '2rem',
-          fontWeight: 'bold'
-        }}>
-          CALIGO
-        </h1>
+        <Link to="/" style={{ textDecoration: 'none', color: 'black' }}>
+          <h1 style={{ margin: 0, fontFamily: 'Inconsolata, monospace' }}>CALIGO</h1>
+        </Link>
       </div>
       
       <nav>
@@ -38,74 +33,29 @@ const NavBar = () => {
           gap: '30px'
         }}>
           <li>
-            <a href="#" style={{ 
-              color: 'black', 
-              textDecoration: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '8px 12px',
-              borderRadius: '6px',
-              transition: 'background-color 0.3s ease'
-            }}>
-              🏠 Inicio
-            </a>
+            <Link to="/" style={{ color: 'black', textDecoration: 'none' }}>
+              Inicio
+            </Link>
           </li>
           <li>
-            <a href="#" style={{ 
-              color: 'black', 
-              textDecoration: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '8px 12px',
-              borderRadius: '6px',
-              transition: 'background-color 0.3s ease'
-            }}>
-              👥 ¿Quiénes somos?
-            </a>
+            <Link to="/category/quienes-somos" style={{ color: 'black', textDecoration: 'none' }}>
+              ¿Quiénes somos?
+            </Link>
           </li>
           <li>
-            <a href="#" style={{ 
-              color: 'black', 
-              textDecoration: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '8px 12px',
-              borderRadius: '6px',
-              transition: 'background-color 0.3s ease'
-            }}>
-              🧳 Equipajes
-            </a>
+            <Link to="/category/equipajes" style={{ color: 'black', textDecoration: 'none' }}>
+              Equipajes
+            </Link>
           </li>
           <li>
-            <a href="#" style={{ 
-              color: 'black', 
-              textDecoration: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '8px 12px',
-              borderRadius: '6px',
-              transition: 'background-color 0.3s ease'
-            }}>
-              💎 Accesorios
-            </a>
+            <Link to="/category/accesorios" style={{ color: 'black', textDecoration: 'none' }}>
+              Accesorios
+            </Link>
           </li>
           <li>
-            <a href="#" style={{ 
-              color: 'black', 
-              textDecoration: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '8px 12px',
-              borderRadius: '6px',
-              transition: 'background-color 0.3s ease'
-            }}>
-              🏷️ Ofertas
-            </a>
+            <Link to="/category/ofertas" style={{ color: 'black', textDecoration: 'none' }}>
+              Ofertas
+            </Link>
           </li>
         </ul>
       </nav>
