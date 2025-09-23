@@ -1,12 +1,12 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import NavBar from './components/NavBar/NavBar';
 import ItemListContainer from './components/ItemListContainer/ItemListContainer';
 import ItemDetailContainer from './components/ItemDetailContainer/ItemDetailContainer';
 
 function App() {
   return (
-    <Router>
+    <BrowserRouter>
       <div className="App">
         <NavBar />
         <Routes>
@@ -16,31 +16,38 @@ function App() {
             element={<ItemListContainer greeting="¡Bienvenido a CALIGO! Tu próxima aventura comienza aquí" />} 
           />
           
-          {/* Ruta para categorías */}
+          {/* Ruta para mostrar todos los productos */}
           <Route 
-            path="/category/:categoryId" 
-            element={<ItemListContainer greeting="Explora nuestra selección por categoría" />} 
+            path="/productos" 
+            element={<ItemListContainer greeting="Todos nuestros productos" />} 
+          />
+          
+          {/* Ruta para categorías específicas */}
+          <Route 
+            path="/categoria/:categoryId" 
+            element={<ItemListContainer greeting="Productos por categoría" />} 
           />
           
           {/* Ruta para detalle de producto */}
           <Route 
-            path="/item/:itemId" 
+            path="/item/:id" 
             element={<ItemDetailContainer />} 
           />
           
-          {/* Ruta 404 temporal */}
+          {/* Ruta 404 - página no encontrada */}
           <Route 
             path="*" 
             element={
-              <div style={{padding: '40px', textAlign: 'center'}}>
-                <h2>Página no encontrada 404</h2>
+              <div style={{ textAlign: 'center', padding: '50px' }}>
+                <h2>404 - Página no encontrada</h2>
                 <p>La página que buscas no existe.</p>
+                <a href="/" style={{ color: '#87c3bd' }}>Volver al inicio</a>
               </div>
             } 
           />
         </Routes>
       </div>
-    </Router>
+    </BrowserRouter>
   );
 }
 

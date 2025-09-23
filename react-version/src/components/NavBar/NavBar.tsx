@@ -3,6 +3,23 @@ import { Link } from 'react-router-dom';
 import CartWidget from '../CartWidget/CartWidget';
 
 const NavBar = () => {
+  // Estilos para los enlaces
+  const linkStyle = {
+    color: 'black',
+    textDecoration: 'none' as const,
+    padding: '10px 15px',
+    borderRadius: '4px',
+    transition: 'background-color 0.3s ease'
+  };
+
+  const handleMouseEnter = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.currentTarget.style.backgroundColor = '#87c3bd';
+  };
+
+  const handleMouseLeave = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.currentTarget.style.backgroundColor = 'transparent';
+  };
+
   return (
     <header style={{
       backgroundColor: '#fdf2d9',
@@ -19,8 +36,8 @@ const NavBar = () => {
           alt="logo CALIGO" 
           style={{ width: '60px', height: '60px', marginRight: '15px' }}
         />
-        <Link to="/" style={{ textDecoration: 'none', color: 'black' }}>
-          <h1 style={{ margin: 0, fontFamily: 'Inconsolata, monospace' }}>CALIGO</h1>
+        <Link to="/" style={{ textDecoration: 'none' }}>
+          <h1 style={{ margin: 0, fontFamily: 'Inconsolata, monospace', color: 'black' }}>CALIGO</h1>
         </Link>
       </div>
       
@@ -33,27 +50,52 @@ const NavBar = () => {
           gap: '30px'
         }}>
           <li>
-            <Link to="/" style={{ color: 'black', textDecoration: 'none' }}>
+            <Link 
+              to="/" 
+              style={linkStyle}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
               Inicio
             </Link>
           </li>
           <li>
-            <Link to="/category/quienes-somos" style={{ color: 'black', textDecoration: 'none' }}>
+            <Link 
+              to="/categoria/quienes-somos" 
+              style={linkStyle}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
               ¿Quiénes somos?
             </Link>
           </li>
           <li>
-            <Link to="/category/equipajes" style={{ color: 'black', textDecoration: 'none' }}>
+            <Link 
+              to="/categoria/equipajes" 
+              style={linkStyle}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
               Equipajes
             </Link>
           </li>
           <li>
-            <Link to="/category/accesorios" style={{ color: 'black', textDecoration: 'none' }}>
+            <Link 
+              to="/categoria/accesorios" 
+              style={linkStyle}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
               Accesorios
             </Link>
           </li>
           <li>
-            <Link to="/category/ofertas" style={{ color: 'black', textDecoration: 'none' }}>
+            <Link 
+              to="/categoria/ofertas" 
+              style={linkStyle}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
               Ofertas
             </Link>
           </li>
