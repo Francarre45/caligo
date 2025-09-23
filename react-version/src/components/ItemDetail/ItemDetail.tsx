@@ -64,65 +64,32 @@ const ItemDetail: React.FC<ItemDetailProps> = ({ product }) => {
             flex: '1',
             minWidth: '300px'
           }}>
-            <h1 style={{
-              fontSize: '28px',
-              marginBottom: '20px',
-              color: '#333'
-            }}>
-              {product.nombre}
-            </h1>
-            
-            <p style={{
-              fontSize: '16px',
-              lineHeight: '1.6',
-              marginBottom: '30px',
-              color: '#666'
-            }}>
-              {product.descripcion}
-            </p>
-            
-            <div style={{
-              fontSize: '32px',
-              fontWeight: 'bold',
-              color: '#87c3bd',
-              marginBottom: '30px'
-            }}>
+            <h1>{product.nombre}</h1>
+            <p>{product.descripcion}</p>
+            <div style={{ fontSize: '32px', fontWeight: 'bold', color: '#87c3bd' }}>
               {formatPrice(product.precio)}
             </div>
             
-            <div style={{
-              display: 'flex',
-              gap: '15px',
-              marginBottom: '30px'
+            <button style={{
+              backgroundColor: '#87c3bd',
+              color: 'white',
+              border: 'none',
+              padding: '15px 30px',
+              borderRadius: '8px',
+              marginRight: '15px'
             }}>
-              <button style={{
-                backgroundColor: '#87c3bd',
-                color: 'white',
-                border: 'none',
-                padding: '15px 30px',
-                borderRadius: '8px',
-                fontSize: '16px',
-                fontWeight: 'bold',
-                cursor: 'pointer'
-              }}>
-                Agregar al carrito
-              </button>
-              
-              <Link 
-                to="/"
-                style={{
-                  backgroundColor: '#6c757d',
-                  color: 'white',
-                  textDecoration: 'none',
-                  padding: '15px 30px',
-                  borderRadius: '8px',
-                  fontSize: '16px',
-                  fontWeight: 'bold'
-                }}
-              >
-                Volver al catálogo
-              </Link>
-            </div>
+              Agregar al carrito
+            </button>
+            
+            <Link to="/" style={{
+              backgroundColor: '#6c757d',
+              color: 'white',
+              textDecoration: 'none',
+              padding: '15px 30px',
+              borderRadius: '8px'
+            }}>
+              Volver al catálogo
+            </Link>
           </div>
         </div>
       </div>
