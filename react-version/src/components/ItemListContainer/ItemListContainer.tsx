@@ -2,179 +2,85 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ItemList from '../ItemList/ItemList';
 import { getProducts, getProductsByCategory } from '../../services/productService';
-
-interface Product {
-  id: number;
-  nombre: string;
-  precio: number;
-  imagen: string;
-  categoria: string;
-  descripcion: string;
-}
+import { Product } from '../../types/product';
 
 interface ItemListContainerProps {
-  greeting: string;
+  greeting?: string;
 }
 
 const ItemListContainer: React.FC<ItemListContainerProps> = ({ greeting }) => {
   const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  
+  const [loading, setLoading] = useState(true);
   const { categoryId } = useParams<{ categoryId: string }>();
 
   useEffect(() => {
-    const loadProducts = async () => {
+    const fetchProducts = async () => {
+      setLoading(true);
       try {
-        setLoading(true);
-        setError(null);
-        
         let productsData: Product[];
-        
+
         if (categoryId) {
           productsData = await getProductsByCategory(categoryId);
         } else {
           productsData = await getProducts();
         }
-        
+
         setProducts(productsData);
-      } catch (err) {
-        setError('Error al cargar los productos. Inténtalo de nuevo.');
-        console.error('Error loading products:', err);
+      } catch (error) {
+        console.error('Error cargando productos:', error);
       } finally {
         setLoading(false);
       }
     };
 
-    loadProducts();
+    fetchProducts();
   }, [categoryId]);
-
-  const getCategoryTitle = () => {
-    if (!categoryId) return greeting;
-    
-    switch (categoryId.toLowerCase()) {
-      case 'equipajes':
-        return 'Equipajes y Valijas';
-      case 'accesorios':
-        return 'Accesorios de Viaje';
-      case 'ofertas':
-        return 'Ofertas Especiales';
-      case 'quienes-somos':
-        return '¿Quiénes Somos?';
-      default:
-        return `Productos - ${categoryId}`;
-    }
-  };
 
   if (loading) {
     return (
-      <div style={{
+      <main style={{ 
+        backgroundColor: '#87c3bd',
+        minHeight: '80vh',
+        padding: '40px 20px',
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center',
-        minHeight: '400px',
-        flexDirection: 'column'
+        alignItems: 'center'
       }}>
-        <div style={{
-          width: '50px',
-          height: '50px',
-          border: '5px solid #f3f3f3',
-          borderTop: '5px solid #87c3bd',
-          borderRadius: '50%',
-          animation: 'spin 1s linear infinite'
-        }}></div>
-        <p style={{ marginTop: '20px', color: '#666' }}>Cargando productos...</p>
-        <style>{`
-          @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-          }
-        `}</style>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div style={{
-        textAlign: 'center',
-        padding: '40px',
-        color: '#d32f2f'
-      }}>
-        <h2>¡Oops! Algo salió mal</h2>
-        <p>{error}</p>
-        <button 
-          onClick={() => window.location.reload()}
-          style={{
-            backgroundColor: '#87c3bd',
-            color: 'white',
-            border: 'none',
-            padding: '10px 20px',
-            borderRadius: '4px',
-            cursor: 'pointer',
-            marginTop: '10px'
-          }}
-        >
-          Reintentar
-        </button>
-      </div>
+        <h2 style={{ fontSize: '2rem', color: '#333' }}>Cargando productos...</h2>
+      </main>
     );
   }
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#87c3bd' }}>
-      <div style={{
-        textAlign: 'center',
-        padding: '40px 20px 20px 20px',
-        backgroundColor: '#87c3bd'
+    <main style={{ 
+      backgroundColor: '#87c3bd',
+      minHeight: '80vh',
+      padding: '40px 20px',
+      fontFamily: 'Inconsolata, monospace'
+    }}>
+      <section style={{ 
+        maxWidth: '1400px',
+        margin: '0 auto'
       }}>
-        <h1 style={{
-          fontSize: '32px',
+        <h2 style={{ 
+          fontSize: '2rem', 
           color: '#333',
-          margin: '0',
-          fontFamily: 'Inconsolata, monospace'
+          marginBottom: '30px',
+          fontWeight: 'bold',
+          textAlign: 'center'
         }}>
-          {getCategoryTitle()}
-        </h1>
+          {greeting}
+        </h2>
         
-        {categoryId === 'quienes-somos' && (
-          <div style={{
-            maxWidth: '800px',
-            margin: '20px auto',
-            padding: '20px',
-            backgroundColor: 'white',
-            borderRadius: '8px',
-            textAlign: 'left'
-          }}>
-            <p>
-              En CALIGO somos especialistas en equipajes y accesorios de viaje. 
-              Desde hace años acompañamos a nuestros clientes en sus aventuras, 
-              ofreciendo productos de calidad y un servicio excepcional.
-            </p>
-            <p>
-              Nuestra misión es hacer que cada viaje sea más cómodo, organizado y seguro. 
-              Por eso seleccionamos cuidadosamente cada producto, pensando en las 
-              necesidades reales de los viajeros.
-            </p>
-          </div>
+        {products.length === 0 ? (
+          <p style={{ textAlign: 'center', fontSize: '1.2rem', color: '#333' }}>
+            No hay productos disponibles
+          </p>
+        ) : (
+          <ItemList products={products} />
         )}
-      </div>
-
-      {categoryId !== 'quienes-somos' && (
-        <ItemList products={products} />
-      )}
-      
-      {products.length === 0 && !loading && categoryId !== 'quienes-somos' && (
-        <div style={{
-          textAlign: 'center',
-          padding: '40px',
-          color: '#666'
-        }}>
-          <h3>No encontramos productos en esta categoría</h3>
-          <p>Te invitamos a explorar otras secciones de nuestra tienda.</p>
-        </div>
-      )}
-    </div>
+      </section>
+    </main>
   );
 };
 

@@ -1,46 +1,225 @@
-# Getting Started with Create React App
+# CALIGO - E-commerce de Equipaje y Accesorios de Viaje
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+E-commerce desarrollado con React, TypeScript y Firebase para la venta de valijas, mochilas y accesorios de viaje.
 
-## Available Scripts
+## Descripción del Proyecto
 
-In the project directory, you can run:
+CALIGO es una aplicación web de comercio electrónico que permite a los usuarios navegar por un catálogo de productos de equipaje, agregar items al carrito de compras y realizar compras completas. El proyecto utiliza Firebase Firestore como base de datos para almacenar productos y órdenes de compra.
+
+## Características Principales
+
+- Navegación fluida tipo SPA (Single Page Application)
+- Catálogo de productos dinámico cargado desde Firebase
+- Sistema de carrito de compras con Context API
+- Filtrado de productos por categorías
+- Vista detallada de cada producto
+- Selector de cantidad con validación de stock
+- Proceso de checkout completo con formulario de datos
+- Generación de órdenes de compra en Firebase
+- Diseño responsive y moderno
+
+## Tecnologías Utilizadas
+
+- **React 19.1.1** - Librería principal
+- **TypeScript 4.9.5** - Tipado estático
+- **React Router Dom 6.30.1** - Navegación
+- **Firebase 12.4.0** - Backend y base de datos (Firestore)
+- **React Icons 5.5.0** - Íconos
+- **CSS inline** - Estilos
+
+## Estructura del Proyecto
+
+```
+react-version/
+├── src/
+│   ├── components/
+│   │   ├── NavBar/
+│   │   │   └── NavBar.tsx
+│   │   ├── CartWidget/
+│   │   │   └── CartWidget.jsx
+│   │   ├── ItemListContainer/
+│   │   │   └── ItemListContainer.tsx
+│   │   ├── ItemList/
+│   │   │   └── ItemList.tsx
+│   │   ├── Item/
+│   │   │   └── Item.tsx
+│   │   ├── ItemDetailContainer/
+│   │   │   └── ItemDetailContainer.tsx
+│   │   ├── ItemDetail/
+│   │   │   └── ItemDetail.tsx
+│   │   ├── ItemCount/
+│   │   │   └── ItemCount.tsx
+│   │   ├── Cart/
+│   │   │   ├── Cart.tsx
+│   │   │   └── CartItem.tsx
+│   │   └── CheckoutForm/
+│   │       └── CheckoutForm.tsx
+│   ├── context/
+│   │   └── CartContext.tsx
+│   ├── services/
+│   │   ├── firebase.js
+│   │   └── productService.js
+│   ├── types/
+│   │   └── product.ts
+│   ├── App.tsx
+│   └── index.tsx
+├── public/
+├── package.json
+└── README.md
+```
+
+## Componentes Principales
+
+### NavBar
+Barra de navegación principal con enlaces a diferentes secciones y CartWidget.
+
+### ItemListContainer
+Contenedor que muestra el listado de productos, con soporte para filtrado por categorías.
+
+### ItemDetailContainer
+Muestra el detalle completo de un producto individual con opción de agregar al carrito.
+
+### ItemCount
+Selector de cantidad con botones para incrementar/decrementar y validación de stock.
+
+### Cart
+Vista del carrito de compras con resumen de productos, cantidades y total.
+
+### CheckoutForm
+Formulario para capturar datos del comprador y finalizar la compra.
+
+### CartContext
+Context API que maneja el estado global del carrito de compras.
+
+## Instalación y Configuración
+
+### Prerrequisitos
+- Node.js (versión 16 o superior)
+- npm o yarn
+
+### Pasos de Instalación
+
+1. Clonar el repositorio
+```bash
+git clone [URL_DEL_REPOSITORIO]
+cd react-version
+```
+
+2. Instalar dependencias
+```bash
+npm install
+```
+
+3. Configurar Firebase
+- Crear un proyecto en Firebase Console
+- Habilitar Firestore Database
+- Crear una colección llamada "products"
+- Copiar las credenciales de configuración
+- Actualizar el archivo `src/services/firebase.js` con tus credenciales
+
+4. Ejecutar la aplicación
+```bash
+npm start
+```
+
+La aplicación se abrirá en `http://localhost:3000`
+
+## Funcionalidades Detalladas
+
+### Sistema de Productos
+- Los productos se cargan dinámicamente desde Firestore
+- Cada producto incluye: nombre, precio, imagen, categoría, descripción y stock
+- Soporte para múltiples categorías: equipajes, carry-on, accesorios
+
+### Carrito de Compras
+- Agregar productos con cantidad seleccionada
+- Modificar cantidades en el carrito
+- Eliminar productos del carrito
+- Vaciar carrito completo
+- Persistencia del estado durante la sesión
+- Cálculo automático de totales
+
+### Proceso de Compra
+- Formulario con validación de campos requeridos
+- Validación de formato de email
+- Generación de orden en Firestore con timestamp
+- Visualización del ID de orden al finalizar
+- Limpieza automática del carrito después de la compra
+
+### Navegación
+- Página principal con todos los productos
+- Filtrado por categorías
+- Vista detallada de productos
+- Carrito de compras
+- Checkout
+- Página 404 para rutas no encontradas
+
+## Estructura de Datos
+
+### Producto (Firestore)
+```javascript
+{
+  nombre: string,
+  precio: number,
+  imagen: string,
+  categoria: string,
+  descripcion: string,
+  stock: number
+}
+```
+
+### Orden de Compra (Firestore)
+```javascript
+{
+  buyer: {
+    nombre: string,
+    email: string,
+    telefono: string,
+    direccion: string,
+    ciudad: string,
+    codigoPostal: string
+  },
+  items: [
+    {
+      id: string,
+      nombre: string,
+      precio: number,
+      quantity: number
+    }
+  ],
+  total: number,
+  date: Timestamp
+}
+```
+
+## Scripts Disponibles
 
 ### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Inicia la aplicación en modo desarrollo.
 
 ### `npm run build`
+Construye la aplicación para producción en la carpeta `build`.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### `npm test`
+Ejecuta los tests configurados.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Navegación del Sitio
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- `/` - Página principal con todos los productos
+- `/productos` - Listado completo de productos
+- `/categoria/:categoryId` - Productos filtrados por categoría
+- `/item/:id` - Detalle de un producto específico
+- `/cart` - Carrito de compras
+- `/checkout` - Formulario de finalización de compra
 
-### `npm run eject`
+## Autor
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Francisco Carreras
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Proyecto Final - CoderHouse
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Este proyecto fue desarrollado como entrega final del curso de React JS en CoderHouse.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Fecha de Entrega
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Octubre 2025

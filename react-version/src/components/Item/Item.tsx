@@ -1,14 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
-interface Product {
-  id: number;
-  nombre: string;
-  precio: number;
-  imagen: string;
-  categoria: string;
-  descripcion: string;
-}
+import { Product } from '../../types/product';
 
 interface ItemProps {
   product: Product;
