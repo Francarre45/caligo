@@ -1,0 +1,37 @@
+<section>
+    <h2>Productos en Tiempo Real</h2>
+    
+    <div class="form-container">
+        <h3>Agregar Nuevo Producto</h3>
+        <form id="addProductForm">
+            <input type="text" id="title" placeholder="Título" required>
+            <input type="text" id="description" placeholder="Descripción" required>
+            <input type="text" id="code" placeholder="Código" required>
+            <input type="number" id="price" placeholder="Precio" required>
+            <input type="number" id="stock" placeholder="Stock" required>
+            <input type="text" id="category" placeholder="Categoría" required>
+            <button type="submit">Agregar Producto</button>
+        </form>
+    </div>
+
+    <div class="products-container" id="productsContainer">
+        {{#if products.length}}
+            {{#each products}}
+                <article class="product-card" data-id="{{this.id}}">
+                    <h3>{{this.title}}</h3>
+                    <p><strong>Descripción:</strong> {{this.description}}</p>
+                    <p><strong>Código:</strong> {{this.code}}</p>
+                    <p><strong>Precio:</strong> ${{this.price}}</p>
+                    <p><strong>Stock:</strong> {{this.stock}} unidades</p>
+                    <p><strong>Categoría:</strong> {{this.category}}</p>
+                    <p><strong>Estado:</strong> {{#if this.status}}Disponible{{else}}No disponible{{/if}}</p>
+                    <button class="delete-btn" data-id="{{this.id}}">Eliminar</button>
+                </article>
+            {{/each}}
+        {{else}}
+            <p class="no-products">No hay productos disponibles en este momento.</p>
+        {{/if}}
+    </div>
+</section>
+
+<script src="/js/realTimeProducts.js"></script>

@@ -1,1 +1,13 @@
-[]
+[
+  {
+    "id": "158ddbc1-2d1a-469b-bc4e-e4140887c714",
+    "title": "Mochila Urbana",
+    "description": "Mochila resistente para uso díario",
+    "code": "MOCH-001",
+    "price": 15000,
+    "status": true,
+    "stock": 10,
+    "category": "mochilas",
+    "thumbnails": []
+  }
+]

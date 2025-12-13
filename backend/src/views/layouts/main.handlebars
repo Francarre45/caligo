@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CALIGO | {{title}}</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <header>
+        <img src="/img/Logo.png" alt="logo del local">
+        <h1>CALIGO</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Inicio</a></li>
+                <li><a href="/home">Productos</a></li>
+                <li><a href="/realtimeproducts">Real Time Products</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {{{body}}}
+    </main>
+
+    <footer>
+        <div>
+            <h4>Ayuda</h4>
+            <ul>
+                <li><a href="#">Locales</a></li>
+                <li><a href="#">Medios de pagos</a></li>
+                <li><a href="#">Cómo comprar</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4>Contacto</h4>
+            <ul>
+                <li>
+                    <img src="/img/Logo WhatsApp.png" alt="logo Whatsapp" class="WhatsApp">
+                    <a href="https://wa.me/1234567890">WhatsApp</a>
+                </li>
+                <li><a href="mailto:info@caligo.com">Mail</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4>Seguinos en nuestras Redes</h4>
+            <ul>
+                <li>
+                    <img src="/img/Logo Instagram.jpeg" alt="logo instagram">

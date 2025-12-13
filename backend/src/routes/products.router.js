@@ -4,7 +4,6 @@ import ProductManager from '../managers/ProductManager.js';
 const router = Router();
 const productManager = new ProductManager();
 
-// GET / - Listar todos los productos
 router.get('/', (req, res) => {
   try {
     const products = productManager.getProducts();
@@ -21,7 +20,6 @@ router.get('/', (req, res) => {
   }
 });
 
-// GET /:pid - Obtener producto por ID
 router.get('/:pid', (req, res) => {
   try {
     const { pid } = req.params;
@@ -47,11 +45,14 @@ router.get('/:pid', (req, res) => {
   }
 });
 
-// POST / - Agregar nuevo producto
 router.post('/', (req, res) => {
   try {
     const productData = req.body;
     const newProduct = productManager.addProduct(productData);
+
+    const io = req.app.get('io');
+    const products = productManager.getProducts();
+    io.emit('updateProducts', products);
 
     res.status(201).json({
       status: 'success',
@@ -67,13 +68,16 @@ router.post('/', (req, res) => {
   }
 });
 
-// PUT /:pid - Actualizar producto
 router.put('/:pid', (req, res) => {
   try {
     const { pid } = req.params;
     const updateData = req.body;
 
     const updatedProduct = productManager.updateProduct(pid, updateData);
+
+    const io = req.app.get('io');
+    const products = productManager.getProducts();
+    io.emit('updateProducts', products);
 
     res.status(200).json({
       status: 'success',
@@ -89,11 +93,14 @@ router.put('/:pid', (req, res) => {
   }
 });
 
-// DELETE /:pid - Eliminar producto
 router.delete('/:pid', (req, res) => {
   try {
     const { pid } = req.params;
     const deletedProduct = productManager.deleteProduct(pid);
+
+    const io = req.app.get('io');
+    const products = productManager.getProducts();
+    io.emit('updateProducts', products);
 
     res.status(200).json({
       status: 'success',
