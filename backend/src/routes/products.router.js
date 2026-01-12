@@ -4,13 +4,18 @@ import ProductManager from '../managers/ProductManager.js';
 const router = Router();
 const productManager = new ProductManager();
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   try {
-    const products = productManager.getProducts();
-    res.status(200).json({
-      status: 'success',
-      payload: products
+    const { limit, page, sort, query } = req.query;
+    
+    const result = await productManager.getProducts({
+      limit,
+      page,
+      sort,
+      query
     });
+
+    res.status(200).json(result);
   } catch (error) {
     res.status(500).json({
       status: 'error',
@@ -20,10 +25,10 @@ router.get('/', (req, res) => {
   }
 });
 
-router.get('/:pid', (req, res) => {
+router.get('/:pid', async (req, res) => {
   try {
     const { pid } = req.params;
-    const product = productManager.getProductById(pid);
+    const product = await productManager.getProductById(pid);
 
     if (!product) {
       return res.status(404).json({
@@ -45,14 +50,16 @@ router.get('/:pid', (req, res) => {
   }
 });
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const productData = req.body;
-    const newProduct = productManager.addProduct(productData);
+    const newProduct = await productManager.addProduct(productData);
 
     const io = req.app.get('io');
-    const products = productManager.getProducts();
-    io.emit('updateProducts', products);
+    if (io) {
+      const allProducts = await productManager.getProducts({ limit: 100 });
+      io.emit('updateProducts', allProducts.payload);
+    }
 
     res.status(201).json({
       status: 'success',
@@ -68,16 +75,18 @@ router.post('/', (req, res) => {
   }
 });
 
-router.put('/:pid', (req, res) => {
+router.put('/:pid', async (req, res) => {
   try {
     const { pid } = req.params;
     const updateData = req.body;
 
-    const updatedProduct = productManager.updateProduct(pid, updateData);
+    const updatedProduct = await productManager.updateProduct(pid, updateData);
 
     const io = req.app.get('io');
-    const products = productManager.getProducts();
-    io.emit('updateProducts', products);
+    if (io) {
+      const allProducts = await productManager.getProducts({ limit: 100 });
+      io.emit('updateProducts', allProducts.payload);
+    }
 
     res.status(200).json({
       status: 'success',
@@ -93,14 +102,16 @@ router.put('/:pid', (req, res) => {
   }
 });
 
-router.delete('/:pid', (req, res) => {
+router.delete('/:pid', async (req, res) => {
   try {
     const { pid } = req.params;
-    const deletedProduct = productManager.deleteProduct(pid);
+    const deletedProduct = await productManager.deleteProduct(pid);
 
     const io = req.app.get('io');
-    const products = productManager.getProducts();
-    io.emit('updateProducts', products);
+    if (io) {
+      const allProducts = await productManager.getProducts({ limit: 100 });
+      io.emit('updateProducts', allProducts.payload);
+    }
 
     res.status(200).json({
       status: 'success',

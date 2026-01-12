@@ -1,144 +1,113 @@
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import { v4 as uuidv4 } from 'uuid';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import Product from '../models/Product.model.js';
 
 class ProductManager {
-  constructor() {
-    this.path = path.join(__dirname, '../data/products.json');
-    this.products = [];
-    this.init();
-  }
-
-  // Inicializar: crear archivo si no existe y cargar productos
-  init() {
+  
+  async getProducts(options = {}) {
     try {
-      if (!fs.existsSync(this.path)) {
-        fs.writeFileSync(this.path, JSON.stringify([], null, 2));
-      }
-      this.products = this.readFile();
-    } catch (error) {
-      console.error('Error al inicializar ProductManager:', error);
-      this.products = [];
-    }
-  }
+      const {
+        limit = 10,
+        page = 1,
+        sort,
+        query
+      } = options;
 
-  // Leer archivo JSON
-  readFile() {
-    try {
-      const data = fs.readFileSync(this.path, 'utf-8');
-      return JSON.parse(data);
-    } catch (error) {
-      console.error('Error al leer productos:', error);
-      return [];
-    }
-  }
-
-  // Escribir en archivo JSON
-  writeFile() {
-    try {
-      fs.writeFileSync(this.path, JSON.stringify(this.products, null, 2));
-    } catch (error) {
-      console.error('Error al escribir productos:', error);
-    }
-  }
-
-  // Obtener todos los productos
-  getProducts() {
-    this.products = this.readFile();
-    return this.products;
-  }
-
-  // Obtener producto por ID
-  getProductById(id) {
-    this.products = this.readFile();
-    const product = this.products.find(p => p.id === id);
-    return product || null;
-  }
-
-  // Agregar nuevo producto
-  addProduct(productData) {
-    try {
-      this.products = this.readFile();
-
-      // Validar campos requeridos
-      const requiredFields = ['title', 'description', 'code', 'price', 'stock', 'category'];
-      for (const field of requiredFields) {
-        if (!productData[field] && productData[field] !== 0) {
-          throw new Error(`El campo "${field}" es requerido`);
+      const filter = {};
+      
+      if (query) {
+        if (query.includes('category:')) {
+          const category = query.split(':')[1];
+          filter.category = category;
+        }
+        else if (query.includes('status:')) {
+          const status = query.split(':')[1] === 'true';
+          filter.status = status;
+        }
+        else {
+          filter.$or = [
+            { title: { $regex: query, $options: 'i' } },
+            { category: { $regex: query, $options: 'i' } }
+          ];
         }
       }
 
-      // Verificar que el código no esté duplicado
-      const codeExists = this.products.some(p => p.code === productData.code);
-      if (codeExists) {
-        throw new Error(`Ya existe un producto con el código "${productData.code}"`);
-      }
-
-      // Crear nuevo producto con ID autogenerado
-      const newProduct = {
-        id: uuidv4(),
-        title: productData.title,
-        description: productData.description,
-        code: productData.code,
-        price: Number(productData.price),
-        status: productData.status !== undefined ? productData.status : true,
-        stock: Number(productData.stock),
-        category: productData.category,
-        thumbnails: productData.thumbnails || []
+      const paginateOptions = {
+        page: parseInt(page),
+        limit: parseInt(limit),
+        lean: true
       };
 
-      this.products.push(newProduct);
-      this.writeFile();
+      if (sort === 'asc') {
+        paginateOptions.sort = { price: 1 };
+      } else if (sort === 'desc') {
+        paginateOptions.sort = { price: -1 };
+      }
+
+      const result = await Product.paginate(filter, paginateOptions);
+
+      return {
+        status: 'success',
+        payload: result.docs,
+        totalPages: result.totalPages,
+        prevPage: result.prevPage,
+        nextPage: result.nextPage,
+        page: result.page,
+        hasPrevPage: result.hasPrevPage,
+        hasNextPage: result.hasNextPage,
+        prevLink: result.hasPrevPage ? `/api/products?page=${result.prevPage}&limit=${limit}${sort ? `&sort=${sort}` : ''}${query ? `&query=${query}` : ''}` : null,
+        nextLink: result.hasNextPage ? `/api/products?page=${result.nextPage}&limit=${limit}${sort ? `&sort=${sort}` : ''}${query ? `&query=${query}` : ''}` : null
+      };
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getProductById(id) {
+    try {
+      const product = await Product.findById(id);
+      return product;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async addProduct(productData) {
+    try {
+      const newProduct = await Product.create(productData);
       return newProduct;
     } catch (error) {
+      if (error.code === 11000) {
+        throw new Error(`Ya existe un producto con el código "${productData.code}"`);
+      }
       throw error;
     }
   }
 
-  // Actualizar producto
-  updateProduct(id, updateData) {
+  async updateProduct(id, updateData) {
     try {
-      this.products = this.readFile();
-      const index = this.products.findIndex(p => p.id === id);
+      const updatedProduct = await Product.findByIdAndUpdate(
+        id,
+        updateData,
+        { new: true, runValidators: true }
+      );
 
-      if (index === -1) {
+      if (!updatedProduct) {
         throw new Error(`Producto con ID "${id}" no encontrado`);
       }
 
-      // No permitir actualizar el ID
-      if (updateData.id) {
-        delete updateData.id;
-      }
-
-      // Actualizar solo los campos proporcionados
-      this.products[index] = {
-        ...this.products[index],
-        ...updateData
-      };
-
-      this.writeFile();
-      return this.products[index];
+      return updatedProduct;
     } catch (error) {
       throw error;
     }
   }
 
-  // Eliminar producto
-  deleteProduct(id) {
+  async deleteProduct(id) {
     try {
-      this.products = this.readFile();
-      const index = this.products.findIndex(p => p.id === id);
+      const deletedProduct = await Product.findByIdAndDelete(id);
 
-      if (index === -1) {
+      if (!deletedProduct) {
         throw new Error(`Producto con ID "${id}" no encontrado`);
       }
 
-      const deletedProduct = this.products.splice(index, 1)[0];
-      this.writeFile();
       return deletedProduct;
     } catch (error) {
       throw error;

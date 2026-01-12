@@ -3,6 +3,7 @@ import { engine } from 'express-handlebars';
 import { Server } from 'socket.io';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import connectDB from './config/db.config.js';
 import productsRouter from './routes/products.router.js';
 import cartsRouter from './routes/carts.router.js';
 import viewsRouter from './routes/views.router.js';
@@ -14,7 +15,18 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = 8080;
 
-app.engine('handlebars', engine());
+connectDB();
+
+app.engine('handlebars', engine({
+  helpers: {
+    multiply: (a, b) => a * b,
+    calculateTotal: (products) => {
+      return products.reduce((total, item) => {
+        return total + (item.product.price * item.quantity);
+      }, 0);
+    }
+  }
+}));
 app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, 'views'));
 
@@ -41,7 +53,11 @@ app.get('/api', (req, res) => {
       carts: {
         create: 'POST /api/carts',
         getById: 'GET /api/carts/:cid',
-        addProduct: 'POST /api/carts/:cid/product/:pid'
+        addProduct: 'POST /api/carts/:cid/product/:pid',
+        removeProduct: 'DELETE /api/carts/:cid/products/:pid',
+        updateCart: 'PUT /api/carts/:cid',
+        updateQuantity: 'PUT /api/carts/:cid/products/:pid',
+        clearCart: 'DELETE /api/carts/:cid'
       }
     }
   });
@@ -80,21 +96,21 @@ const productManager = new ProductManager();
 io.on('connection', (socket) => {
   console.log('✅ Nuevo cliente conectado:', socket.id);
 
-  socket.on('addProduct', (productData) => {
+  socket.on('addProduct', async (productData) => {
     try {
-      const newProduct = productManager.addProduct(productData);
-      const products = productManager.getProducts();
-      io.emit('updateProducts', products);
+      const newProduct = await productManager.addProduct(productData);
+      const products = await productManager.getProducts({ limit: 100 });
+      io.emit('updateProducts', products.payload);
     } catch (error) {
       socket.emit('productError', { message: error.message });
     }
   });
 
-  socket.on('deleteProduct', (productId) => {
+  socket.on('deleteProduct', async (productId) => {
     try {
-      productManager.deleteProduct(productId);
-      const products = productManager.getProducts();
-      io.emit('updateProducts', products);
+      await productManager.deleteProduct(productId);
+      const products = await productManager.getProducts({ limit: 100 });
+      io.emit('updateProducts', products.payload);
     } catch (error) {
       socket.emit('productError', { message: error.message });
     }
