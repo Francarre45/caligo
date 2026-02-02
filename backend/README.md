@@ -37,7 +37,6 @@ npm run dev
 El servidor estará corriendo en `http://localhost:8080`
 
 ## 📁 Estructura del Proyecto
-
 ```
 backend/
 ├── src/
@@ -582,3 +581,20 @@ DELETE http://localhost:8080/api/carts/6965556d4055c3b8e547318f
 ## 📄 Licencia
 
 ISC
+
+---
+
+## 🔑 Credenciales MongoDB Atlas (Para evaluación del profesor)
+
+**URL de conexión completa:**
+```
+mongodb+srv://caligo_user:Caligo2025@caligo.efwmkj8.mongodb.net/caligo?retryWrites=true&w=majority
+```
+
+**Credenciales:**
+- **Usuario:** caligo_user
+- **Contraseña:** Caligo2025
+- **Base de datos:** caligo
+- **Cluster:** caligo.efwmkj8.mongodb.net
+
+**Nota:** La aplicación ya está configurada con estas credenciales en `src/config/db.config.js`
